@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="msapplication-TileColor" content="#1A0066"/>
+<meta name="msapplication-TileImage" content="/images/win8_symbol_140x140.png"/>
+<title>{$SiteName/}_首页</title>
+{$PWAMainfirst/}
+{$MetaKeywords/}
+{$MetaDescription/}
+{ZL:Boot4()/}
+<link href="{$CssDir/}global.css?Version={ZL.Label id="前端样式版本号"/}" rel="stylesheet"/>
+{ZL:GetCSS(1,0)/}
+<style>
+html,body{width:100%;height:100%;background:#111;}
+html{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+canvas{display:block;position: absolute;top: 0;left: 0; vertical-align:bottom;}
+.btn-group{ z-index: 1;}
+</style>
+</head>
+<body>
+<div id="particles-js">
+<div class="container home">
+<h1>白雪IPS系统</h1>
+<div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+  <a href="/User/Register" class="btn btn-light">注册会员</a>
+  <a href="/user/" class="btn btn-warning">登陆系统</a>
+  <a href="#" class="btn btn-info">使用帮助</a>
+</div>
+<div class="copyright">{$Copyright/}</div>
+</div>
+</div>
+
+<script src="{$CssDir/}js/particles.min.js"></script>
+<script src="{$CssDir/}js/app.js"></script>
+<script>
+
+</script>
+</body>
+</html>

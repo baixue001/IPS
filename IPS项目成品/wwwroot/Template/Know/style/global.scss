@@ -1,0 +1,65 @@
+//CSS预编译文件基于Sass语法
+//这是Zoomla!逐浪CMS团队优化的Sass模板，我们为你预置了逐浪字库官方团队的高品质webFont之CDN库，你可完全采用中文定义写作，如下面写法都是合格
+//$中国变量之一:12px;
+//$中国人民中华人民共和国变量之二:#ff0;
+//.a1{width:$中国变量之一 ;}
+//.a2{background: $中国人民中华人民共和国变量之二;}
+//建议CSS注释写在代码段的起始处以使阅读更加流畅
+
+/* 全局样式定义 Powered by Zoomla!逐浪CMS z01.com*/
+@charset "utf-8";
+@import "zoomlaCMS";
+//@import url("https://code.z01.com/Zfonts.css");
+
+$V8欢迎高度:72vh;
+
+a:hover{text-decoration: none; color: currentColor;}
+/*内容页的图片可定义响应式且带颜色边框方法是 .content img {max-width: 98%;border: inset;}*/
+
+//首页定义
+.home{@include dflex;position: relative;height: 100vh;flex-direction: column;
+h1{font-family: $苹方极细字体;font-weight: 100; color: #fff;text-align: center;}
+.copyright{padding-top: 1rem; color: #ccc;}
+}
+
+.count-particles{background:#002;position:absolute;top:48px;left:0;width:80px;color:#13E8E9;font-size:.8em;text-align:left;text-indent:4px;line-height:14px;padding-bottom:2px;font-family:Helvetica, Arial, sans-serif;font-weight:700;border-radius:0 0 3px 3px;}
+.js-count-particles{font-size:1.1em;}
+#stats,.count-particles{-webkit-user-select:none;margin-top:5px;margin-left:5px;}
+#stats{border-radius:3px 3px 0 0;overflow:hidden;}
+#particles-js{position: relative;top: 0;left: 0; width:100%;height:100%;background-color:#b61924;background-image:url();background-size:cover;background-position:50% 50%;background-repeat:no-repeat;}
+
+
+
+
+
+/*内容页定义*/
+#content {
+	margin: auto;font-size: 14px;line-height: 26px;text-align: justify;text-justify: inter-ideograph;overflow: hidden;
+	h1 {width: 100%;font-size: 24px;margin: 10px 0px 10px 0px;color: #9b0000;text-align: center;display: block;border-bottom: 1px solid #ccc;line-height: 35px;}
+	h2 {width: 100%;font-size: 18px;margin: 0;text-align: center;}
+	address {font-style: normal;line-height: 25px;display: block;text-align: center;}
+}
+
+
+    
+    
+
+/*769-1930分辨率之间传统低分屏幕优化*/
+@media only screen and (min-width: 769px) and (max-width: 1930px) {
+
+}
+
+ /*小于768px手机优化*/
+@media screen and (max-width:768px){
+.container{max-width: 100%;}
+
+.zMobile{display:none;}
+
+}
+
+
+
+
+
+
+/*key:UG93ZXJlZCBieSBab29tbGEh6YCQ5rWqQ01TIHd3d3cuejAxLmNvbQ== */

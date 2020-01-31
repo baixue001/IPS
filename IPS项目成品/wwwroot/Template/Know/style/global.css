@@ -1,0 +1,32 @@
+@charset "UTF-8";
+/* 全局样式定义 Powered by Zoomla!逐浪CMS z01.com*/
+a:hover { text-decoration: none; color: currentColor; }
+
+/*内容页的图片可定义响应式且带颜色边框方法是 .content img {max-width: 98%;border: inset;}*/
+.home { display: flex; align-content: center; justify-content: center; align-items: center; position: relative; height: 100vh; flex-direction: column; }
+.home h1 { font-family: Helvetica Neue, PingFang SC, Microsoft Yahei, \\5FAE\8F6F\96C5\9ED1, STXihei, \\534E\6587\7EC6\9ED1, sans-serif; font-weight: 100; color: #fff; text-align: center; }
+.home .copyright { padding-top: 1rem; color: #ccc; }
+
+.count-particles { background: #002; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: 700; border-radius: 0 0 3px 3px; }
+
+.js-count-particles { font-size: 1.1em; }
+
+#stats, .count-particles { -webkit-user-select: none; margin-top: 5px; margin-left: 5px; }
+
+#stats { border-radius: 3px 3px 0 0; overflow: hidden; }
+
+#particles-js { position: relative; top: 0; left: 0; width: 100%; height: 100%; background-color: #b61924; background-image: url(); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
+
+/*内容页定义*/
+#content { margin: auto; font-size: 14px; line-height: 26px; text-align: justify; text-justify: inter-ideograph; overflow: hidden; }
+#content h1 { width: 100%; font-size: 24px; margin: 10px 0px 10px 0px; color: #9b0000; text-align: center; display: block; border-bottom: 1px solid #ccc; line-height: 35px; }
+#content h2 { width: 100%; font-size: 18px; margin: 0; text-align: center; }
+#content address { font-style: normal; line-height: 25px; display: block; text-align: center; }
+
+/*769-1930分辨率之间传统低分屏幕优化*/
+/*小于768px手机优化*/
+@media screen and (max-width: 768px) { .container { max-width: 100%; }
+  .zMobile { display: none; } }
+/*key:UG93ZXJlZCBieSBab29tbGEh6YCQ5rWqQ01TIHd3d3cuejAxLmNvbQ== */
+
+/*# sourceMappingURL=global.css.map */
