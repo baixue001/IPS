@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZoomLa.BLL\ZoomLa.BLL.csproj" />
+    <ProjectReference Include="..\ZoomLa.Common\ZoomLa.Common.csproj" />
+    <ProjectReference Include="..\ZoomLa.Components\ZoomLa.Components.csproj" />
+    <ProjectReference Include="..\ZoomLa.Model\ZoomLa.Model.csproj" />
+    <ProjectReference Include="..\ZoomLa.Safe\ZoomLa.Safe.csproj" />
+    <ProjectReference Include="..\ZoomLa.SQLDAL\ZoomLa.SQLDAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
+  </ItemGroup>
+
+</Project>

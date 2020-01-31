@@ -1,0 +1,18 @@
+﻿@{
+
+}
+
+
+<div class="menu_tit pl-2"><i class="zi_circleDownLong"></i> 试卷管理</div>
+<div id="nodeNav" class="input-group">
+<input type="text" id="keyWord" class="form-control ascx_key" onkeydown="return ASCX.OnEnterSearch('/Admin/exam/papers_system_manage?skey=',this);" placeholder="试卷名称或ID">
+<div class="input-group-append">
+    <button class="input-group-text" type="button" onclick="ASCX.Search('/Admin/exam/papers_system_manage?keyWord=','keyWord');"><i class="zi zi_search"></i></button>
+</div>
+</div>
+<div class="tvNavDiv">
+<div class="NodeTree_left_ul">
+<ul class="tvNav"><li><a class="list1" id="a0" href="/Admin/exam/papers_system_manage" target="main_right"><span class="list_span">全部试卷</span> <i class="zi zi_laba"></i></a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=1" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">英语</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=2" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">语文</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=3" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">数学</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=4" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">物理</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=5" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">化学</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=6" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">政治</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=7" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">美术</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=9" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">音乐</a></li><li><a href="/Admin/exam/papers_system_manage?NodeID=10" target="main_right" onclick="NodeTree.activeSelf(this);" style="padding-left:0.5em;">体育</a></li></ul>
+</div>
+
+</div>

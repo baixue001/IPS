@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+@Html.Partial("_layout_assets")
+<link rel="stylesheet" href="/theme/css/v4style.css?v=3" />
+<link href="/JS/Plugs/iCheck/skins/all.css" rel="stylesheet" />
+<script src="/JS/Plugs/iCheck/icheck.min.js"></script>
+<style type="text/css">
+    .list_choice form{width:100%;}
+</style>
+@RenderSection("head",false)
+</head>
+<body>
+@RenderSection("content",false)
+<script>
+    var siteconf = {
+        path: "/Admin/",
+        updir: "@ZoomLa.Components.SiteConfig.SiteOption.UploadDir.ToLower()"
+    };
+</script>
+@RenderSection("script",false)
+</body>
+</html>

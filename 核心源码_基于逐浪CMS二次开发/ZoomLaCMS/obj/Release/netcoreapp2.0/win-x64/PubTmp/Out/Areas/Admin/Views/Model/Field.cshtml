@@ -1,0 +1,199 @@
+﻿@using System.Data
+@using ZoomLa.Common
+@using ZoomLa.Model.Content
+@using ZoomLa.BLL.Content
+@using Microsoft.AspNetCore.Html
+@using ZoomLaCMS.Control
+@model System.Data.DataTable
+@functions{
+    B_ModelField bll = new B_ModelField();
+    public string GetChk(DataRow dr)
+    {
+        if (DataConverter.CBool(DataConverter.CStr(dr["sys_type"]))) { return ""; }
+        else { return "<input type='checkbox' name='idchk' value='" + dr["FieldID"] + "' />"; }
+    }
+    public string GetFieldType(string TypeName)
+    {
+        return bll.GetFieldType(TypeName);
+    }
+
+    public bool Get_sum(string Sys_type)
+    {
+        return !DataConverter.CBool(Sys_type);
+    }
+    public string IsSysField(DataRow dr)
+    {
+        if (DataConverter.CBool(DataConverter.CStr(dr["Sys_type"])))
+        {
+            return "<span style='color:green;'>系统</span>";
+        }
+        else { return "自定义"; }
+    }
+    public IHtmlContent IsValid(object value, string type = "")
+    {
+        string check = "<i class='fa fa-check' style='color:green;'></i>";
+        string error = "<i class='fa fa-remove' style='color:red;'></i>";
+        string result = "";
+        if (type.Equals("iscopy"))
+        {
+            result = value.Equals("-1") ? error : check;
+        }
+        else
+        {
+            result = DataConverter.CBool(DataConverter.CStr(value)) ? check : error;
+        }
+        return Html.Raw(result);
+    }
+
+}
+
+@{
+    M_ModelInfo modInfo = ViewBag.model;
+    string tabNameStr = "当前表:" + modInfo.TableName;
+    Bread[] breads = new Bread[] {
+    new Bread("/{manage}/I/Main","工作台"),
+    new Bread("ModelManage?ModelType="+modInfo.ModelType,modInfo.ModelName),
+    new Bread(){
+        url=Context.Request.RawUrl(),
+        text="字段列表",
+        addon=tabNameStr + " <a id='ShowLink' class='reds' href='javascript:ShowList()'>[显示所有字段]</a> <a href = 'FieldAdd?ModelID=" + modInfo.ModelID + "'  class='reds'>[添加字段]</a>"
+    } };
+}
+@section head{<title>字段管理</title>}
+@section content{
+    @Call.SetBread(breads)
+    <div class="panel panel-default container-fluid pr-0">
+        <div class="panel-body row sysRow list_choice table-responsive-md">
+            <table id="FieldList" class="table table-striped table-bordered table-hover sys_table">
+                <tr class="gridtitle text-center">
+                    <th class="w1rem" scope="col"></th>
+                    <th scope="col"><strong>字段名</strong></th>
+                    <th scope="col"><strong>字段别名</strong></th>
+                    <th><strong>字段类型</strong></th>
+                    <th scope="col"><strong>字段级别</strong></th>
+                    <th scope="col"><strong>是否启用</strong></th>
+                    <th scope="col"><strong>前端显示</strong></th>
+                    <th scope="col"><strong>是否必填</strong></th>
+                    <th scope="col"><strong>批量添加</strong></th>
+                    <th scope="col"><strong>允许内链</strong></th>
+                    <th scope="col"><strong>排序</strong></th>
+                    <th scope="col"><strong>手动排序</strong></th>
+                    <th scope="col"><strong>操作</strong></th>
+                </tr>
+                @foreach (DataRow dr in Model.Rows)
+                {
+                    <tr data-id="@dr["FieldID"]" ondblclick="GetToUrl('@dr["FieldID"]','@dr["ModelID"]');">
+                        <td>@Html.Raw(GetChk(dr))</td>
+                        <td>@dr["FieldName"]</td>
+                        <td>@dr["FieldAlias"]</td>
+                        <td>@GetFieldType(DataConverter.CStr(dr["FieldType"]))</td>
+                        <td>@Html.Raw(IsSysField(dr))</td>
+                        <td>@IsValid(dr["IsCopy"], "iscopy")</td>
+                        <td>@IsValid(dr["IsShow"])</td>
+                        <td>@IsValid(dr["IsNotNull"])</td>
+                        <td>@IsValid(dr["Islotsize"])</td>
+                        <td>@IsValid(dr["IsChain"])</td>
+                        <td>
+                            <a href="javascript:;" onclick="moveup(this)">↑上移</a><a href="javascript:;" onclick="movedown(this)">下移↓</a>
+                        </td>
+                        <td class="text-center">
+                            <input type="text" class="text_x text-center" name="order" data-id="@dr["FieldID"]" data-old="@dr["OrderID"]" value="@dr["OrderID"]" />
+                        </td>
+                        <td class="text-center">
+                            <a href="FieldAdd?ID=@dr["FieldID"]&ModelID=@dr["ModelID"]"><i class="fa fa-pencil" title="修改"></i></a>
+                            <a href="javascript:;" onclick="mvcpage.del({ ids: '@dr["FieldID"]', url: 'Field_API?action=del',after:function(){location=location;}, confirm: '确定要移除吗' });"><i class="fa fa-trash-o" title="删除"></i>删除</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div class="panel-footer">
+
+                @Html.Raw(PageCommon.GetTlpDP("TxtTemplate"))
+                <input type="button" class="btn btn-info" value="设定模板" />
+                <input type="button" ID="Order_B" class="btn btn-info" value="保存排序" onclick="CheckOrder()" />
+                <input type="button" ID="BatDel_Btn" class="btn btn-danger" onclick="mvcpage.bat({ url: 'Field_API?action=del', confirm: '确定要删除选定字段吗' });" value="批量删除" />
+
+                @Html.Partial("C_TlpDP", new C_TlpDP("TemplateIndex", ""))
+                @Html.Hidden("TxtTemplate_hid", modInfo.ContentModule)
+                @Html.Hidden("Order_Hid")
+            </div>
+        </div>
+    </div>
+
+}
+@section script{
+    <script src="/js/Controls/ZL_Dialog.js"></script>
+    <script src="/js/ZL_Regex.js"></script>
+    <script>
+        $().ready(function () {
+            Tlp_initTemp();
+        });
+        //上移操作
+        function moveup(obj) {
+            $tr = $(obj).closest('tr');
+            $pretr = $tr.prevAll(':visible').eq(0);
+            var curorder = $tr.find("input[name='order']").val();
+            var curid = $tr.data('id');
+            var preid = $pretr.data('id');
+            var preorder = $pretr.find("input[name='order']").val();
+            $tr.find("input[name='order']").val(preorder);
+            $pretr.find("input[name='order']").val(curorder);
+            $tr.insertBefore($pretr);
+            ajaxorder({ id: curid, tagid: preid, order: preorder, tagorder: curorder });
+        }
+        //下移操作
+        function movedown(obj) {
+            $tr = $(obj).closest('tr');
+            $nexttr = $tr.nextAll(':visible').eq(0);
+            var curorder = $tr.find("input[name='order']").val();
+            var curid = $tr.data('id');
+            var nextid = $nexttr.data('id');
+            var nextorder = $nexttr.find("input[name='order']").val();
+            $tr.find("input[name='order']").val(nextorder);
+            $nexttr.find("input[name='order']").val(curorder);
+            $tr.insertAfter($nexttr);
+            ajaxorder({ id: curid, order: nextorder, tagid: nextid, tagorder: curorder });
+        }
+        //ajax排序
+        function ajaxorder(option) {
+            $.post('', { action: "orderup", curid: option.id, curorder: option.order, tagid: option.tagid, tagorder: option.tagorder }, function (data) {
+                if (data != '1') {
+                    alert('操作出错，请重试或联系管理员!');
+                }
+            })
+        }
+        window.onload = function () {
+            $("#FieldList tr td:contains('系统')").parent().hide();
+        }
+        function ShowList() {
+            $("#FieldList tr td:contains('系统')").parent().toggle();
+            $("#ShowLink").text($("#ShowLink").text() == "[显示所有字段]" ? "[隐藏系统字段]" : "[显示所有字段]");
+        }
+        function WinOpenDialog(url, w, h) {
+            var feature = "dialogWidth:" + w + "px;dialogHeight:" + h + "px;center:yes;status:no;help:no";
+            showModalDialog(url, window, feature);
+        }
+        function CheckOrder() {
+            $("[name='order']").each(function (i, v) {
+                if ($(v).val() != $(v).data('old')) {
+                    $("#Order_Hid").val($("#Order_Hid").val() + "," + $(v).data('id') + "|" + $(v).val());
+                }
+            });
+            $.post("Order_Submit", { "Order_Hid": $("#Order_Hid").val() }, function (data) {
+                var model = APIResult.getModel(data);
+                if (APIResult.isok(model)) {
+                    location = location;
+                }
+                else { console.error(model.retmsg); }
+
+            })
+        }
+        function GetToUrl(fid, modelid) {
+            if (ZL_Regex.isNum(fid) && ZL_Regex.isNum(modelid)) {
+                location = " FieldAdd?ID=" + fid + "&ModelID=@(modInfo.ModelID)&ModelType=@(modInfo.ModelType)";
+            }
+            else { alert("该字段不允许修改"); }
+        }
+    </script>
+
+}

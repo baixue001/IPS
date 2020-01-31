@@ -1,0 +1,37 @@
+﻿@model ErrorViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = Model.ReturnUrl;
+    string message = Model.Message;
+    try
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            url = "javascript:history.back();";
+        }
+    }
+    catch (Exception) { }
+}
+
+@section head{
+<link rel="stylesheet" href="/dist/css/animate.min.css"/>
+<title>成功提示</title>
+}
+@section content{
+<div class="container animated sysTips_prompt">
+    <div class="col-sm-6 offset-sm-3">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 成功提示： </div>
+            <div class="card-body text-center">
+                <h5 class="card-title"></h5>
+                <p class="card-text">@message</p>
+                <div class="card-text"><a ID="LnkReturnUrl" href="@url" class="btn btn-info" style="color:#fff;"><i class="fa fa-repeat"></i> @("<-返回上一页") </a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+@section script{
+
+}

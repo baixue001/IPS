@@ -1,0 +1,188 @@
+﻿@using System.Data
+@{
+
+}
+@section head{<title></title> }
+@section content{ 
+
+<body>
+<form method="post" action="/admin/User/Job/Jobsconfig" id="form1" enctype="multipart/form-data">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTQ3NTA4MTAzNg9kFgJmD2QWAgIBD2QWAmYPZBYOAgIPEA8WBh4ORGF0YVZhbHVlRmllbGQFB0dyb3VwSUQeDURhdGFUZXh0RmllbGQFCUdyb3VwTmFtZR4LXyFEYXRhQm91bmRnZBAVAwnor7fpgInmi6kM5pmu6YCa5Lya5ZGYDOS8geS4muS8muWRmBUDATABMQEyFCsDA2dnZ2RkAgMPEA8WBh8ABQdHcm91cElEHwEFCUdyb3VwTmFtZR8CZ2QQFQMJ6K+36YCJ5oupDOaZrumAmuS8muWRmAzkvIHkuJrkvJrlkZgVAwEwATEBMhQrAwNnZ2dkZAIEDxAPFgYfAQUJTW9kZWxOYW1lHwAFB01vZGVsSUQfAmdkEBUEG+ivt+mAieaLqeeUqOaIt+eugOWOhuaooeWeiwzkvIHkuJrkv6Hmga8M5oub6IGY5L+h5oGvDOS4quS6uueugOWOhhUEATACMTACMTECMTIUKwMEZ2dnZ2RkAgUPEA8WBh8BBQlNb2RlbE5hbWUfAAUHTW9kZWxJRB8CZ2QQFQQb6K+36YCJ5oup5LyB5Lia5L+h5oGv5qih5Z6LDOS8geS4muS/oeaBrwzmi5vogZjkv6Hmga8M5Liq5Lq6566A5Y6GFQQBMAIxMAIxMQIxMhQrAwRnZ2dnFgFmZAIGDxAPFgYfAQUKRmllbGRBbGlhcx8ABQdGaWVsZElEHwJnZBAVAQzpgInmi6nlrZfmrrUVAQEwFCsDAWdkZAIHDxAPFgYfAQUJTW9kZWxOYW1lHwAFB01vZGVsSUQfAmdkEBUEG+ivt+mAieaLqeaLm+iBmOS/oeaBr+aooeWeiwzkvIHkuJrkv6Hmga8M5oub6IGY5L+h5oGvDOS4quS6uueugOWOhhUEATACMTACMTECMTIUKwMEZ2dnZxYBZmQCCA8QDxYGHwEFCkZpZWxkQWxpYXMfAAUHRmllbGRJRB8CZ2QQFQIM6YCJ5oup5a2X5q61AmVlFQIBMAQxMjUyFCsDAmdnZGRkpYnZ/B5AggYlrFSoX76I1uH65McpGeOHiriTvwgdDfc=">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="DB1D2028">
+</div>
+
+
+<nav aria-label="breadcrumb" role="navigation" class="fixed-top"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/Admin/I/Main">工作台</a> </li><li class="breadcrumb-item"><a href="../UserManage">用户管理</a> </li><li class="breadcrumb-item"><a href="Jobsconfig">人才招聘</a> </li><li class="breadcrumb-item active" aria-current="page">人才模版配置</li></ol></nav>
+<div class="container-fluid pr-0">
+<div class="row sysRow list_choice table-responsive-md">
+  <table class="table table-striped table-bordered table-hover sys_table">
+    <tbody id="Tabss">
+      <tr class="tdbg">
+        <th class="text-center" height="24" align="center" colspan="2"><span id="Lbtitle">招聘模块配置</span></th>
+      </tr>
+      <tr>
+        <th class="w12rem_lg"><strong> 启用模块</strong></th>
+        <td><table id="Isuse">
+	<tbody><tr>
+		<td><input id="Isuse_0" type="radio" name="ctl00$Content$Isuse" value="1" checked="checked"><label for="Isuse_0">启用</label></td><td><input id="Isuse_1" type="radio" name="ctl00$Content$Isuse" value="0"><label for="Isuse_1">停用</label></td>
+	</tr>
+</tbody></table></td>
+      </tr>
+      <tr>
+        <th class="tdleft"> <strong>个人会员组</strong></th>
+        <td>
+          <select name="ctl00$Content$userlist" id="userlist" class="form-control max20rem">
+	<option value="0">请选择</option>
+	<option selected="selected" value="1">普通会员</option>
+	<option value="2">企业会员</option>
+
+</select></td>
+      </tr>
+      <tr>
+        <th class="tdleft"> <strong>企业会员组</strong></th>
+        <td>
+          <select name="ctl00$Content$comlist" id="comlist" class="form-control max20rem">
+	<option value="0">请选择</option>
+	<option value="1">普通会员</option>
+	<option selected="selected" value="2">企业会员</option>
+
+</select></td>
+      </tr>
+      <tr>
+        <th class="tdleft"> <strong>个人会员简历模型</strong></th>
+        <td>
+          <select name="ctl00$Content$Resume" id="Resume" class="form-control max20rem">
+	<option value="0">请选择用户简历模型</option>
+	<option value="10">企业信息</option>
+	<option value="11">招聘信息</option>
+	<option value="12">个人简历</option>
+
+</select>
+		  <small class="text-danger">用于判断用户信息是否是简历</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"> <strong>企业信息模型</strong></th>
+        <td>
+          <select name="ctl00$Content$Company" onchange="javascript:setTimeout('__doPostBack(\'ctl00$Content$Company\',\'\')', 0)" id="Company" class="form-control max20rem">
+	<option selected="selected" value="0">请选择企业信息模型</option>
+	<option value="10">企业信息</option>
+	<option value="11">招聘信息</option>
+	<option value="12">个人简历</option>
+
+</select>
+		  <small class="text-danger">用于判断用户信息是否是企业信息</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"><strong> 企业信息显示字段</strong></th>
+        <td>
+          <select name="ctl00$Content$CompanyField" id="CompanyField" class="form-control max20rem">
+	<option value="0">选择字段</option>
+
+</select>
+		  <small class="text-danger">用于显示企业信息的名称</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"><strong> 招聘信息模型</strong></th>
+        <td>
+          <select name="ctl00$Content$CompanyJobs" onchange="javascript:setTimeout('__doPostBack(\'ctl00$Content$CompanyJobs\',\'\')', 0)" id="CompanyJobs" class="form-control max20rem">
+	<option selected="selected" value="0">请选择招聘信息模型</option>
+	<option value="10">企业信息</option>
+	<option value="11">招聘信息</option>
+	<option value="12">个人简历</option>
+
+</select>
+		  <small class="text-danger">用于判断用户信息是否是企业信息招聘信息</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"> <strong>招聘信息职位字段</strong></th>
+        <td>
+          <select name="ctl00$Content$JobsField" id="JobsField" class="form-control max20rem">
+	<option value="0">选择字段</option>
+	<option value="1252">ee</option>
+
+</select>
+		  <small class="text-danger">用于显示工作岗位名称显示</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"><strong> 企业会员查看简历消费点数</strong></th>
+        <td> 
+		  <div class="input-group">
+			  <div class="input-group-prepend">
+				<span class="input-group-text">每次查看新的简历收费</span>
+			  </div>
+			  <input name="ctl00$Content$TxtConsumePoint" type="text" value="0" size="5" id="TxtConsumePoint" class="form-control max20rem">
+			  <div class="input-group-append">
+				<span class="input-group-text ">点</span>
+			  </div>
+			</div>
+		  <small class="text-muted">(只在查看点数消费设置是消费点数时起作用)</small>
+		  </td>
+      </tr>
+      <tr>
+        <th class="tdleft"><strong> 企业会员查看简历消费设置</strong></th>
+        <td><table id="ConsumeType">
+	<tbody><tr>
+		<td><input id="ConsumeType_0" type="radio" name="ctl00$Content$ConsumeType" value="0" checked="checked"><label for="ConsumeType_0">不启用消费</label></td>
+	</tr><tr>
+		<td><input id="ConsumeType_1" type="radio" name="ctl00$Content$ConsumeType" value="1"><label for="ConsumeType_1">使用点数查看简历</label></td>
+	</tr><tr>
+		<td><input id="ConsumeType_2" type="radio" name="ctl00$Content$ConsumeType" value="2"><label for="ConsumeType_2">在有效期内可以查看所有简历</label></td>
+	</tr><tr>
+		<td><input id="ConsumeType_3" type="radio" name="ctl00$Content$ConsumeType" value="3"><label for="ConsumeType_3">以上2种都启用</label></td>
+	</tr>
+</tbody></table></td>
+      </tr>
+      <tr>
+          <td></td>
+        <td>
+          <input type="submit" name="ctl00$Content$Button1" value="提　交" id="Button1" class="btn btn-outline-info"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<script>
+    var siteconf = {
+        path: "/Admin/",
+        updir: "/uploadfiles/"
+    };
+</script>
+
+<script type="text/javascript" src="/js/DatePicker/WdatePicker.js"></script>
+
+</form>
+
+</body>
+}
+@section script{ }

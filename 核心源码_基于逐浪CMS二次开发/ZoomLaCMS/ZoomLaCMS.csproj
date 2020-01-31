@@ -1,0 +1,94 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <StartupObject>ZoomLaCMS.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZoomLa.BLL\ZoomLa.BLL.csproj" />
+    <ProjectReference Include="..\ZoomLa.Common\ZoomLa.Common.csproj" />
+    <ProjectReference Include="..\ZoomLa.Components\ZoomLa.Components.csproj" />
+    <ProjectReference Include="..\ZoomLa.Extend\ZoomLa.Extend.csproj" />
+    <ProjectReference Include="..\ZoomLa.Model\ZoomLa.Model.csproj" />
+    <ProjectReference Include="..\ZoomLa.Safe\ZoomLa.Safe.csproj" />
+    <ProjectReference Include="..\ZoomLa.SQLDAL\ZoomLa.SQLDAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\App_Data\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\Template\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\Config\**" CopyToOutputDirectory="Always" />
+    <Content Update="wwwroot\theme\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\lib\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="wwwroot\Plugins\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Pages\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="Views\**" CopyToOutputDirectory="Always" />
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\Com\Sort.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Com\Import.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Content\Baike\BKCheck_List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Content\Baike\BK_List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Content\Baike\BKVersion_List.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Content\Addon\" />
+    <Folder Include="Areas\Plat\Data\" />
+    <Folder Include="Areas\Plat\Models\" />
+    <Folder Include="Areas\Plat\Views\Blog\" />
+    <Folder Include="Areas\User\Data\" />
+    <Folder Include="Models\VM\" />
+    <Folder Include="Models\UEditor\" />
+    <Folder Include="Views\Guest\" />
+    <Folder Include="Views\Bar\" />
+    <Folder Include="Views\FrontCom\" />
+    <Folder Include="wwwroot\images\Admin\label\" />
+    <Folder Include="wwwroot\images\Admin\Count\" />
+    <Folder Include="wwwroot\UploadFiles\" />
+    <Folder Include="wwwroot\Plugins\" />
+    <Folder Include="wwwroot\Config\" />
+    <Folder Include="wwwroot\App_Data\" />
+    <Folder Include="wwwroot\log\" />
+  </ItemGroup>
+
+  
+
+</Project>

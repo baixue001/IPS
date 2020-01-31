@@ -1,0 +1,113 @@
+﻿@using System.Data
+@using ZoomLa.BLL.SYS
+@model ZoomLa.Model.M_Label
+@{
+    B_Label labelBll = new B_Label();
+    B_FunLabel bfun = new B_FunLabel();
+    DataTable cateDT = labelBll.GetLabelCateListXML();
+    DataTable fieldDT = labelBll.GetSourceLabelXML();
+}
+@section head{<title>标签助手</title>}
+@section content{
+    @Call.SetBread(new Bread[] {
+new Bread("/{manage}/Config/SiteInfo","系统设置"),
+new Bread("LabelManage","标签管理 "),
+new Bread() {url="", text="标签调用",addon="" }}
+            )
+    <div class="list_choice" id="labeldiv">
+        <ul class="nav nav-tabs top_opbar mb-0">
+            <li class="nav-item"><a class="nav-link active" href="#Tabs0" data-toggle="tab">自定标签</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Tabs1" data-toggle="tab">字段标签</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Tabs2" data-toggle="tab">系统标签</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Tabs3" data-toggle="tab">扩展函数</a></li>
+        </ul>
+        <div class="container-fluid pr-0">
+            <div class="row sysRow table-responsive-md">
+                <div class="col-lg-4 col-md-4 LabelCallTab_l">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Tabs0" runat="server">
+                            <div class="card">
+                                <div class="card-header">
+                                    @Html.DropDownList("CustomLabel_DP", MVCHelper.ToSelectList(cateDT, "name", "name"), new { @class = "form-control", onchange = "GetCustom(this);" })
+                                </div>
+                                <div class="card-body" id="CustomLabel_div"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Tabs1">
+                            <div class="card">
+                                <div class="card-header">
+                                    @Html.DropDownList("Field_DP", MVCHelper.ToSelectList(fieldDT, "LabelName", "LabelID"), new { @class = "form-control", onchange = "GetField(this);" })
+                                </div>
+                                <div class="card-body" id="Field_div"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane pl-3" id="Tabs2">
+                            <div class="list-group">
+                                @Html.Raw(bfun.GetSysLabel())
+                            </div>
+                        </div>
+                        <div class="tab-pane pl-3" id="Tabs3">
+                            <div class="list-group">
+                                @Html.Raw(bfun.GetFunLabel())
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 border p-0">
+                    <div class="ml-3">
+                        @Html.Raw(SafeSC.ReadFileStr("/html/label.htm"))
+                    </div>
+                    <div id="Textarea">
+                        <textarea ID="textContent" name="textContent" Style="max-width: 100%; width: 100%; height: 530px;" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section script{
+    <link rel="stylesheet" href="/Plugins/CodeMirror/lib/codemirror.css">
+    <link rel="stylesheet" href="/Plugins/CodeMirror/theme/eclipse.css">
+    <script src="/Plugins/CodeMirror/lib/codemirror.js"></script>
+    <script src="/Plugins/CodeMirror/mode/xml.js"></script>
+    <script src="/Plugins/CodeMirror/mode/javascript/javascript.js"></script>
+    <script src="/Plugins/CodeMirror/addon/selection/active-line.js"></script>
+    <script src="/Plugins/CodeMirror/addon/edit/matchbrackets.js"></script>
+    <script src="/Plugins/CodeMirror/mode/htmlmixed.js"></script>
+    <script src="/Plugins/CodeMirror/mode/css.js"></script>
+    <script src="/js/Controls/ZL_Dialog.js"></script>
+    <script src="/js/Controls/ZL_Array.js"></script>
+    <script src="/Plugins/CodeMirror/LabelCall.js?v=11"></script>
+    @*<script src="/dist/js/sea.js"></script>*@
+    <script src="~/js/Plugs/base64.js"></script>
+    <style>
+        .modal-sm { max-width: 500px; width: 50%; }
+        .modal-lg { width: 1100px; }
+    </style>
+    @if (!string.IsNullOrEmpty(Model.LabelName))
+    {
+        <script>
+        cit2("@Model.LabelType", "@Model.LabelName");
+        </script>
+    }
+    <script>
+        //var base64 = null;
+        //seajs.use(["base64"], function (instance) {
+        //    base64 = instance;
+        //})
+        var base64 = Base64;
+        var diag = new ZL_Dialog();
+        function opentitle(url, title) {
+            diag.url = url;
+            diag.title = title;
+            diag.ShowModal();
+        }
+        function closeDiag() { closeCuModal(); }
+        function closeCuModal() {
+            diagLabel.CloseModal();
+            CloseComDiag();
+        }
+    </script>
+
+}
+

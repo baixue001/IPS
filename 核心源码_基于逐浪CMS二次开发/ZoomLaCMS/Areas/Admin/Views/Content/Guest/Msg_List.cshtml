@@ -1,0 +1,80 @@
+﻿@using ZoomLa.BLL.Helper
+@model ZoomLa.SQLDAL.SQL.PageSetting
+@functions{
+public IHtmlContent GetStatus(DataRow dr)
+{
+    int status = DataConverter.CLng(dr["status"]);
+    string result = "";
+    switch (status)
+    {
+        case 0:
+            result = "<span style='color:gray;'>未审核</span>";
+            break;
+        case 1:
+            result = "<span style='color:green;'>已审核</span>";
+            break;
+        case -1:
+            result = "<span style='color:red;'>回收站</span>";
+            break;
+    }
+    return MvcHtmlString.Create(result);
+}
+public string GetIPLoca(DataRow dr)
+{
+    return IPScaner.IPLocation(DataConverter.CStr(dr["IP"]));
+}
+}
+@{ 
+    string apiUrl = "Msg_API?action=";
+}
+
+<table class="table table-bordered table-striped">
+<thead>
+    <tr>
+        <td></td>
+        <td>ID</td>
+        <td>标题</td>
+        <td>留言状态</td>
+        <td>留言时间</td>
+        <td>留言IP</td>
+        <td>留言人</td>
+        <td>
+
+        </td>
+    </tr>
+</thead>
+@foreach (DataRow dr in Model.dt.Rows)
+{
+    <tr>
+        <td><input type="checkbox"  name="idchk" value='@dr["GID"]' /></td>
+        <td>@dr["GID"]</td>
+        <td><a href="MsgShow?ID=@dr["GID"]">@dr["Title"]</a></td>
+        <td>@GetStatus(dr)</td>
+        <td>@dr["GDate"]</td>
+        <td>@GetIPLoca(dr) </td>
+        <td> <a href="javascript:;" onclick="user.showuinfo('@dr["UserID"]');">@dr["UserName"]</a></td>
+        <td>
+            @*<asp:LinkButton ID="LinkButton4" runat="server" CommandName="Reply" CommandArgument='<%# Eval("GID")+"&CateID="+Eval("CateID") %>' ToolTip="回复"><i class="zi zi_reply"></i>回复</asp:LinkButton>*@
+            <a href="MsgList?ParentId=@(dr["GID"])"><i class="zi zi_list"></i>回复列表</a>
+            <a href="MsgShow?ID=@dr["GID"]">详情</a>
+            <a href="/Guest/GuestShow?GID=@dr["GID"]" target="_blank"><i class="zi zi_globe"></i>浏览</a>
+            <a href="javascript:;"></a>
+            @*<asp:LinkButton ID="LinkButton5" runat="server" Visible='<%#Eval("Status","").Equals("0") %>' CommandName="Audit" CommandArgument='<%#Eval("GID")%>' ToolTip="未审核"><i class="zi zi_flag"></i><span class="text-success">通过审核</span></asp:LinkButton>
+        <asp:LinkButton ID="LinkButton6" runat="server" Visible='<%#Eval("Status","").Equals("1") %>' CommandName="CancelAudit" CommandArgument='<%#Eval("GID")%>' ToolTip="已审核"><i class="zi zi_flag"></i><span class="text-danger">取消审核</span></asp:LinkButton>*@
+            @if (DataConverter.CLng(dr["status"]) == -1)
+            {
+                <a href="javascript:;" onclick="mvcpage.del({ids:'@dr["GID"]',url:'@(apiUrl+"del")',confirm:'确定要删除吗'});"><i class="zi zi_trashalt"></i>彻底删除</a>
+            }
+            else
+            {
+                <a href="javascript:;" onclick="mvcpage.del({ids:'@dr["GID"]',url:'@(apiUrl+"del")',confirm:'确定要移入回收站吗'});"><i class="zi zi_trashalt"></i>删除</a>
+            }
+           
+
+
+        </td>
+    </tr>
+}
+
+@Html.Partial("_page")
+</table>

@@ -1,0 +1,64 @@
+﻿@using System.Data
+@using ZoomLa.Common
+@using ZoomLa.BLL
+@model ZoomLa.SQLDAL.SQL.PageSetting
+@functions{
+    B_Arrive avBll = new B_Arrive();
+    public string GetState(DataRow dr) { return avBll.GetStateStr(Convert.ToInt32(dr["state"])); }
+    public string GetStoreName(DataRow dr)
+    {
+        int sid = DataConverter.CLng(dr["StoreID"]);
+        if (sid < 1) { return "商城通用"; }
+        else
+        {
+            return DataConverter.CStr(ZoomLa.SQLDAL.DBCenter.ExecuteScala("ZL_CommonModel", "Title", "GeneralID=" + sid));
+        }
+    }
+    public string GetSource(DataRow dr)
+    {
+        if (DataConverter.CLng(dr["CUser"]) > 0) { return "用户投放"; }
+        else { return "平台发放"; }
+    }
+}
+@{ 
+    string apiUrl = "Arrive_API?action=";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td></td>
+            <td>ID</td>
+            <td>来源</td>
+            <td>卡别名</td>
+            <td>适用店铺</td>
+            <td>编号</td>
+            <td>金额</td>
+            <td>所属用户</td>
+            <td>生效时间</td>
+            <td>到期时间</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+    </thead>
+    @foreach (DataRow dr in Model.dt.Rows)
+    {
+        <tr>
+            <td><input type="checkbox" name="idchk" value="@dr["ID"]" /></td>
+            <td>ID</td>
+            <td><%#GetSource() %></td>
+            <td>@dr["ArriveName"]</td>
+            <td><%#GetStoreName() %></td>
+            <td>@dr["ArriveNO"]</td>
+            <td>@dr["Amount"]</td>
+            <td>@dr["UserName"]</td>
+            <td>@dr["AgainTime"]</td>
+            <td>@dr["EndTime"]</td>
+            <td> <%#GetState() %></td>
+            <td>
+                <a href="ArriveAdd?id=@dr["id"]" class="option_style"><i class="zi zi_pencilalt" title="修改"></i>修改</a>
+                <a href="javascript:;" class="option_style" onclick="mvcpage.del({ url: '@(apiUrl+"del")',confirm:'确定要删除吗' });"><i class="zi zi_trashalt" title="删除"></i>删除</a>
+            </td>
+        </tr>
+    }
+    @Html.Partial("_page")
+</table>

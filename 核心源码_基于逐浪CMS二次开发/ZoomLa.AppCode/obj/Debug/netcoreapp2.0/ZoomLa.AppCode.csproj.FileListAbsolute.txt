@@ -1,0 +1,8 @@
+D:\Code\NetCoreCMS\ZoomLa.AppCode\bin\Debug\netcoreapp2.0\ZoomLa.AppCode.deps.json
+D:\Code\NetCoreCMS\ZoomLa.AppCode\bin\Debug\netcoreapp2.0\ZoomLa.AppCode.dll
+D:\Code\NetCoreCMS\ZoomLa.AppCode\bin\Debug\netcoreapp2.0\ZoomLa.AppCode.pdb
+D:\Code\NetCoreCMS\ZoomLa.AppCode\obj\Debug\netcoreapp2.0\ZoomLa.AppCode.csproj.CoreCompileInputs.cache
+D:\Code\NetCoreCMS\ZoomLa.AppCode\obj\Debug\netcoreapp2.0\ZoomLa.AppCode.AssemblyInfoInputs.cache
+D:\Code\NetCoreCMS\ZoomLa.AppCode\obj\Debug\netcoreapp2.0\ZoomLa.AppCode.AssemblyInfo.cs
+D:\Code\NetCoreCMS\ZoomLa.AppCode\obj\Debug\netcoreapp2.0\ZoomLa.AppCode.dll
+D:\Code\NetCoreCMS\ZoomLa.AppCode\obj\Debug\netcoreapp2.0\ZoomLa.AppCode.pdb

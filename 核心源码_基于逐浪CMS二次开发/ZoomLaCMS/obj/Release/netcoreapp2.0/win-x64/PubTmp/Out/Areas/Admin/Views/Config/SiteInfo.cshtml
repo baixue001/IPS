@@ -1,0 +1,130 @@
+﻿@using ZoomLa.Components
+@using ZoomLa.Common
+@model ZoomLa.Components.SiteInfo
+@{
+
+}
+@section head{
+<link type="text/css" href="/dist/css/bootstrap-switch.min.css" rel="stylesheet" />
+<title>站点信息</title>
+}
+@section content{
+    @Call.SetBread(new Bread[] {
+new Bread("/{manage}/I/Main","工作台"),
+new Bread("SiteInfo","网站配置"),
+new Bread() {url="", text="基本配置",addon= "" }}
+                      )
+    <form method="post" action="SiteInfo_Submit">
+        <div class="container-fluid pr-0">
+            <div class="row sysRow">
+                <ul class="nav nav-tabs list_choice" role="tablist">
+                    <li class="nav-item"> <a href="#tabs0" class="nav-link active show" id="home-tab1" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">网站设置</a></li>
+                </ul>
+                <div class="tab-content col-12 table_box">
+                    <div class="tab-pane active" id="tabs0">
+                        <table class="table table-bordered table-hover sys_table">
+                            <tr>
+                                <th scope="row" class="w12rem_lg">网站名称</th>
+                                <td><input type="text" name="SiteName_T" ID="SiteName_T" class=" form-control max20rem" value="@Model.SiteName" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">网站标题</th>
+                                <td><input type="text" name="SiteTitle_T" ID="SiteTitle_T" class="form-control max20rem" value="@Model.SiteTitle" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">网站地址</th>
+                                <td>
+                                    <input type="text" name="SiteUrl_T" ID="SiteUrl_T" class="form-control max20rem required" value="@Model.SiteUrl" />
+                                </td>
+                            </tr>
+                            @*<tr>
+                                    <th scope="row">后台路径</th>
+                                    <td>
+                                        <input type="text" name="CustomPath" ID="CustomPath"  MaxLength="10" class="form-control max20rem" onkeyup="value=value.replace(/[^\w\/]/ig,'')" AutoCompleteType="None" />
+                                    </td>
+                                </tr>*@
+                            <tr>
+                                <th scope="row">LOGO地址</th>
+                                <td><input type="text" name="LogoUrl_T" ID="LogoUrl_T" class="form-control max20rem" value="@Model.LogoUrl" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">后台标志</th>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="text" name="LogoAdmin_T" ID="LogoAdmin_T" placeholder="初始值" class="form-control max20rem" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" onclick="ShowComDiag('/common/icon2.html', '选择图标');">选择图标 <i id="LogoAdmin_T_icon"></i></span>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">选取图标(如选用图片则规格是54px*48px大小)</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">后台名称</th>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="text" name="LogoPlatName_T" ID="LogoPlatName_T" placeholder="初始值" class="form-control max20rem" value="@Model.LogoPlatName" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" onclick="setPlatName();">推荐格式</span>
+                                        </div>
+                                    </div>
+                            </tr>
+                            <tr>
+                                <th scope="row">官方二维码</th>
+                                <td><input type="text" name="QRCode_T" ID="QRCode_T" class="form-control max20rem" value="@Model.BannerUrl" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">公司名称</th>
+                                <td><input type="text" name="ComName_T" ID="ComName_T" class="form-control max20rem" value="@Model.CompanyName" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">站长姓名</th>
+                                <td><input type="text" name="Webmaster_T" ID="Webmaster_T" class="form-control max20rem" value="@Model.Webmaster" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">站长手机</th>
+                                <td>
+                                    <input type="text" name="MasterPhone_T" ID="MasterPhone_T" class="form-control max20rem" value="@Model.MasterPhone" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">站长信箱</th>
+                                <td>
+                                    <input type="text" name="WebmasterEmail_T" ID="WebmasterEmail_T" class="form-control max20rem" value="@Model.WebmasterEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">网站META关键词</th>
+                                <td><textarea type="text" name="MetaKeywords_T" ID="MetaKeywords_T" class="form-control m50rem_50">@Model.MetaKeywords</textarea></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">网站META网页描述</th>
+                                <td><textarea type="text" name="MetaDescription_T" ID="MetaDescription_T" class="form-control m50rem_50">@Model.MetaDescription</textarea></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">版权信息</th>
+                                <td><textarea type="text" name="Copyright_T" ID="Copyright_T" class="form-control m50rem_50 h6rem">@Model.Copyright</textarea></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">站长统计脚本</th>
+                                <td><textarea type="text" name="allSiteJS" ID="allSiteJS" class="form-control m50rem_50 h6rem">@Model.AllSiteJS</textarea></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="submit" ID="Button1" value="保存网站设置" class="btn btn-outline-info" onclick="disBtn(this,2000);" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+}
+@section script{
+
+
+
+}

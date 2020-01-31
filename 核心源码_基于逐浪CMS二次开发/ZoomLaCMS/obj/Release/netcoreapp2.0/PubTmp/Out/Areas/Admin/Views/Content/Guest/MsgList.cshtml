@@ -1,0 +1,30 @@
+﻿@model ZoomLa.SQLDAL.SQL.PageSetting
+@{
+    string apiUrl = "Msg_API?action=";
+    string view = ViewBag.viewDir + "Msg_List.cshtml";
+ }
+@section head{<title>留言列表</title> }
+@section content{ 
+@Call.SetBread(new Bread[] {
+new Bread("{admin}"),
+new Bread("CateList","留言分类"),
+new Bread(Context.Request.RawUrl(),"留言列表")
+},"{search}")
+<div class="list_choice">
+    @Html.Partial(view)
+</div>
+<div>
+    <input type="button" ID="btndelete" class="btn btn-outline-danger" onclick="mvcapage.bat({url:'@(apiUrl+"recycle")',confirm:'确定要删除选中的项目吗'})" value="批量删除" OnClick="btndelete_Click" />
+    <input type="button" ID="btnAdudit" class="btn btn-outline-info" value="审核通过" onclick="mvcpage.bat({url:'@(apiUrl+"audit")'});" />
+    <input type="button" ID="btnAdudit" class="btn btn-outline-info" value="审核通过" onclick="mvcpage.bat({url:'@(apiUrl+"unaudit")'});" />
+
+
+    <input type="button" ID="Rel_B" class="btn btn-outline-info"   value="批量还原" onclick="mvcpage.del({url:'@(apiUrl+"recover")'});"/>
+    <input type="button" ID="Del_B" class="btn btn-outline-danger" value="彻底删除" onclick="mvcpage.bat({url:'@(apiUrl+"del")',confirm:'确定要删除选中的项目吗'});"/>
+</div>
+
+}
+@section script{ 
+
+
+}

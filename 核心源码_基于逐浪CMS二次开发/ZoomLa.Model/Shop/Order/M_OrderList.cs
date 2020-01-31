@@ -1,0 +1,560 @@
+﻿namespace ZoomLa.Model
+{
+    using System;using System.Data.Common;
+    
+    using System.Data.SqlClient;
+    public class M_OrderList : M_Base
+    {
+        /// <summary>
+        /// 订单类型:0为正常订单,1:酒店 2:航班 3:旅游 4:积分 5:域名,6:Purse充值,7:IDC订单,8:虚拟订单,9:IDC服务续费,10:代购,11:捐赠订单
+        /// 21:Hide(仅用于程序逻辑不抽出显示)
+        /// API:20(付款后再由代码对接第三方接口)
+        /// </summary>
+        public enum OrderEnum
+        {
+            Normal = 0, Hotel = 1, Flight = 2, Trval = 3, Score = 4, Domain = 5, Purse = 6, IDC = 7, Cloud = 8, IDCRen = 9, Fast = 10, Donate = 11,
+            Other = 20, Hide = 21
+        }
+        /// <summary>
+        /// 订单状态：-99为回收站,-5:拒绝订单(管理员取消订单),-3:确认退款,-2:拒绝退款,-1:申请退款,0为正常,1:管理员确认
+        /// 99:订单已完成(需要与收货与付款状态一起判断)100:订单已完成分成(仅用于古文化)--100以后的用于扩展
+        /// 回收站状态单独标识,不计入订单状态
+        /// Sureed已分离为IsSure,为兼容暂不移除
+        /// </summary>
+        public enum StatusEnum
+        {
+            Recycle = -99, CancelOrder = -5, CheckDrawBack = -3, UnDrawBack = -2, DrawBack = -1, Normal = 0, Sured = 1, OrderFinish = 99
+        }
+        /// <summary>
+        /// 支付方式,0:正常,1:需预付(PreMoney),2:代理商代收,3:支付尾款(仅用于支付单)
+        /// </summary>
+        public enum PayTypeEnum { Normal = 0, PrePay = 1, HelpReceive = 2, AfterPay = 3 }
+        /// <summary>
+        /// -2:已退款,-1:退款中,0:未支付,1:已支付(顾客完成支付),10:(管理员|店主)确认收款(依需要判断)
+        /// </summary>
+        public enum PayEnum { Refunded = -2, RequestRefund = -1, NoPay = 0, HasPayed = 1, SurePayed = 10 }
+        /// <summary>
+        /// 收货|物流状态,0:未发货,1:已发货,2:客户已收货,-1:已申请退货,-2:商户确认退货
+        /// </summary>
+        public enum ExpEnum { NoSend = 0, HasSend = 1, HasReceived = 2, ApplyBack = -1, HasBack = -2 }
+        //----------------------------
+        public int id { get; set; }
+        public string OrderNo { get; set; }
+        /// <summary>
+        /// 用于存储对应的快递ID(ZL_Order_Exp)
+        /// </summary>
+        public string ExpressNum { get; set; } 
+        ///<summary>
+        /// 发货公司(改为存自定义的快递公司)
+        /// </summary>
+        public string Company { get; set; }
+        /// <summary>
+        /// 快递单号
+        /// </summary>
+        public string ExpressDelivery { get; set; }
+        /// <summary>
+        /// 商品总价(未优惠前,不含运费)
+        /// </summary>
+        public double Balance_price { get; set; }
+        /// <summary>
+        /// 运费备注
+        /// </summary>
+        public string Freight_remark { get; set; }
+        /// <summary>
+        /// 订单支付备注,如预付多少
+        /// </summary>
+        public string Balance_remark { get; set; }
+        /// <summary>
+        /// 收货人
+        /// </summary>
+        public string Receiver { get; set; }
+        /// <summary>
+        /// 订单所属用户的用户名
+        /// </summary>
+        public string Rename { get; set; }
+        /// <summary>
+        /// 该订单的创建者,一般为当前用户名
+        /// </summary>
+        public string AddUser { get; set; }
+        public int Userid { get; set; }
+        /// <summary>
+        /// 省份和城市
+        /// </summary>
+        public string Shengfen { get; set; }
+        public string Chengshi { get; set; }
+        public string province { get; set; }
+        public string city { get; set; }
+        public string Diqu { get; set; }
+        public string Jiedao { get; set; }
+        public string ZipCode { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string MobileNum { get; set; }
+        public int Mobile { get; set; }
+        public int PayType { get { return Delivery; }set { Delivery = value; } }
+        private int Delivery = 0;
+        /// <summary>
+        /// 订单备注
+        /// </summary>
+        public string Ordermessage { get; set; }
+        /// <summary>
+        /// 内部记录
+        /// </summary>
+        public string Internalrecords { get; set; }
+        /// <summary>
+        /// 订单金额
+        /// </summary>
+        public Double Ordersamount { get; set; }
+        /// <summary>
+        /// 实际收到金额
+        /// </summary>
+        public Double Receivablesamount { get; set; }
+        /// <summary>
+        /// 订单金额(备份,含运费)
+        /// </summary>
+        public Double Specifiedprice { get; set; }
+        /// <summary>
+        /// 运费
+        /// </summary>
+        public Double Freight { get; set; }
+        /// <summary>
+        /// 是否需要发票
+        /// </summary>
+        public int Invoiceneeds { get; set; }
+        /// <summary>
+        /// 是否已开发票
+        /// </summary>
+        public int Developedvotes { get; set; }
+        /// <summary>
+        /// 订单状态
+        /// </summary>
+        public int OrderStatus { get; set; }
+        /// <summary>
+        /// 付款状态
+        /// </summary>
+        public int Paymentstatus { get; set; }
+        /// <summary>
+        /// 收货|物流状态:见ExpEnum
+        /// </summary>
+        public int StateLogistics { get; set; }
+        /// <summary>
+        /// 签收(物流签收状态,单独记录,但暂未使用)
+        /// </summary>
+        public int Signed { get; set; }
+        /// <summary>
+        /// 1:已结算,0:未结算(订单等以预订方式购买)
+        /// </summary>
+        public int Settle { get; set; }
+        /// <summary>
+        /// 是否作废 0:正常,1:前端回收站,2:前端删除
+        /// </summary>
+        public int Aside { get; set; }
+        /// <summary>
+        /// 订单类型
+        /// </summary>
+        public int Ordertype { get; set; }
+        public DateTime AddTime { get; set; }
+        /// <summary>
+        /// 店铺ID,自营为0
+        /// </summary>
+        public int StoreID { get; set; }
+        /// <summary>
+        /// 支付完成后,订单所属支付单号
+        /// </summary>
+        public string PaymentNo {get;set; }
+        /// <summary>
+        /// 订单送货时间(文字)
+        /// </summary>
+        public string ExpTime { get; set; }
+        /// <summary>
+        /// 1=true=已完成,订单是否完成尾款支付(仅在预付状态下有效)
+        /// </summary>
+        public bool IsCount { get; set; }
+        /// <summary>
+        /// 管理员或店主是否确认此订单(用于配合一些逻辑)
+        /// </summary>
+        public int IsSure { get; set; }
+        /// <summary>
+        /// 订单退货信息
+        /// </summary>
+        public int BackID { get; set; }
+        #region 预留无实际逻辑
+        /// <summary>
+        /// 本次交易用户所得积分
+        /// </summary>
+        public int Integral { get; set; }
+        /// <summary>
+        /// 缺货时的处理方式
+        /// </summary>
+        public int Outstock { get; set; }
+        /// <summary>
+        /// 用于记录支付的平台ID(disuse,以支付单中的为准,为兼容暂不删除)
+        /// </summary>
+        public int Payment { get; set; }
+        /// <summary>
+        /// 存储充值时的充值赠送规则ID
+        /// </summary>
+        public string Money_code { get; set; }
+        /// <summary>
+        /// 商品汇率
+        /// </summary>
+        public double Money_rate { get; set; }
+        //附加的虚拟币金额
+        public string AllMoney_Json { get; set; }
+        /// <summary>
+        /// 1:挂起
+        /// </summary>
+        public int Suspended { get; set; }
+        /// <summary>
+        /// 临时用于IDC续费订单,存储对应的IDC订单ID
+        /// </summary>
+        public int Promoter { get; set; }
+        /// <summary>
+        /// 存JSON数据
+        /// </summary>
+        public string Extend { get; set; }
+
+        #endregion
+        #region disuse字段
+        /// <summary>
+        /// 发票类型ID(disuse)
+        /// </summary>
+        public int InvoType { get; set; }
+        /// <summary>
+        /// 发票信息(disuse)
+        /// </summary>
+        public string Invoice { get; set; }
+        /// <summary>
+        /// 管理员拒绝或同意退款理由
+        /// </summary>
+        private string Guojia { get; set; }
+        //[disuse],该订单赠送了多少积分,改为以具体赠送表和日志中记录为准
+        private int SendPointStatus { get; set; }
+        //原用于与退货关联,记录退货前的状态
+        private int Deliverytime { get; set; }
+        private string Merchandiser { get; set; }
+        //收货人
+        private string Reuser { get; set; }
+        /// <summary>
+        /// 原代购服务费,改用于存预付金额(disuse)(存在支付单中)
+        /// </summary>
+        public double Service_charge { get; set; }
+        #endregion
+        //--------------------
+        public string AddRess { get { return (Shengfen + " " + Chengshi + " " + Diqu + " " + Jiedao).Replace("  "," "); } }
+        /// <summary>
+        /// 订单商品金额合计
+        /// </summary>
+        public double ProductAmount { get { return Ordersamount - Freight; } }
+        public string _tbname = "ZL_OrderInfo";
+        public override string TbName { get { return _tbname; }set { _tbname = value; } }
+        public override string[,] FieldList()
+        {
+            string[,] Tablelist = {
+                                  {"ID","Int","4"},
+                                  {"OrderNo","VarChar","50"},
+                                  {"Reuser","VarChar","255"},
+                                  {"Receiver","VarChar","50"}, 
+                                  {"Rename","VarChar","255"}, 
+                                  {"Guojia","VarChar","255"}, 
+                                  {"Shengfen","VarChar","255"}, 
+                                  {"Chengshi","VarChar","255"}, 
+                                  {"Diqu","VarChar","255"}, 
+                                  {"Jiedao","VarChar","255"}, 
+                                  {"ZipCode","VarChar","50"}, 
+                                  {"Phone","VarChar","50"}, 
+                                  {"Email","VarChar","50"}, 
+                                  {"Mobile","Int","4"}, 
+                                  {"Delivery","Int","4"}, 
+                                  {"Outstock","Int","4"}, 
+                                  {"Deliverytime","Int","4"}, 
+                                  {"Payment","Int","4"}, 
+                                  {"Invoice","Text","400"}, 
+                                  {"Ordermessage","Text","400"}, 
+                                  {"Merchandiser","VarChar","50"}, 
+                                  {"Internalrecords","Text","400"}, 
+                                  {"Ordersamount","Money","10"}, 
+                                  {"Receivablesamount","Money","10"}, 
+                                  {"Specifiedprice","Money","10"}, 
+                                  {"Freight","Money","10"}, 
+                                  {"Invoiceneeds","Money","10"}, 
+                                  {"Developedvotes","Int","4"}, 
+                                  {"OrderStatus","Int","4"}, 
+                                  {"Paymentstatus","Int","4"}, 
+                                  {"StateLogistics","Int","4"}, 
+                                  {"Signed","Int","4"}, 
+                                  {"Settle","Int","4"}, 
+                                  {"Aside","Int","4"}, 
+                                  {"Suspended","Int","4"}, 
+                                  {"Ordertype","Int","4"}, 
+                                  {"AddTime","DateTime","8"}, 
+                                  {"AddUser","VarChar","255"}, 
+                                  {"Userid","Int","4"}, 
+                                  {"city","NVarChar","50"}, 
+                                  {"IsCount","Bit","4"}, 
+                                  {"Integral","Int","4"}, 
+                                  {"parentID","Int","4"}, 
+                                  {"service_charge","Float","16"}, 
+                                  {"Balance_price","Float","16"}, 
+                                  {"Freight_remark","NVarChar","1000"}, 
+                                  {"Balance_remark","NVarChar","1000"}, 
+                                  {"Money_rate","Money","10"}, 
+                                  {"Money_code","VarChar","4"}, 
+                                  {"MobileNum","NVarChar","20"}, 
+                                  {"ExpressDelivery","NVarChar","500"}, 
+                                  {"InvoType","Int","4"}, 
+                                  {"Promoter","Int","4"}, 
+                                  {"ExpressNum","VarChar","400"},
+                                  {"Company","NVarChar","400"},
+                                  {"SendPointStatus","Int","4"},
+                                  {"Province","NVarChar","50"},
+                                  {"Extend","NText","20000"},
+                                  {"StoreID","Int","4"},
+                                  {"AllMoney_Json","NVarChar","500"},
+                                  {"PaymentNo","NVarChar","500"},
+                                  {"ExpTime","NVarChar","500"},
+                                  {"IsSure","Int","4"},
+                                  {"BackID","Int","4"}
+                                 };
+            return Tablelist;
+        }
+        public override SqlParameter[] GetParameters()
+        {
+            M_OrderList model = this;
+            if (model.AddTime<=DateTime.MinValue) { model.AddTime = DateTime.Now; }
+            if (model.Balance_price == 0) { model.Balance_price = model.Ordersamount; }
+            SqlParameter[] sp = GetSP();
+            sp[0].Value = model.id;
+            sp[1].Value = model.OrderNo;
+            sp[2].Value = model.Reuser;
+            sp[3].Value = model.Receiver;
+            sp[4].Value = model.Rename;
+            sp[5].Value = model.Guojia;
+            sp[6].Value = model.Shengfen;
+            sp[7].Value = model.Chengshi;
+            sp[8].Value = model.Diqu;
+            sp[9].Value = model.Jiedao;
+            sp[10].Value = model.ZipCode;
+            sp[11].Value = model.Phone;
+            sp[12].Value = model.Email;
+            sp[13].Value = model.Mobile;
+            sp[14].Value = model.Delivery;
+            sp[15].Value = model.Outstock;
+            sp[16].Value = model.Deliverytime;
+            sp[17].Value = model.Payment;
+            sp[18].Value = model.Invoice;
+            sp[19].Value = model.Ordermessage;
+            sp[20].Value = model.Merchandiser;
+            sp[21].Value = model.Internalrecords;
+            sp[22].Value = model.Ordersamount;
+            sp[23].Value = model.Receivablesamount;
+            sp[24].Value = model.Specifiedprice;
+            sp[25].Value = model.Freight;
+            sp[26].Value = model.Invoiceneeds;
+            sp[27].Value = model.Developedvotes;
+            sp[28].Value = model.OrderStatus;
+            sp[29].Value = model.Paymentstatus;
+            sp[30].Value = model.StateLogistics;
+            sp[31].Value = model.Signed;
+            sp[32].Value = model.Settle;
+            sp[33].Value = model.Aside;
+            sp[34].Value = model.Suspended;
+            sp[35].Value = model.Ordertype;
+            sp[36].Value = model.AddTime;
+            sp[37].Value = model.AddUser;
+            sp[38].Value = model.Userid;
+            sp[39].Value = model.city;
+            sp[40].Value = model.IsCount;
+            sp[41].Value = model.Integral;
+            sp[42].Value = 0;
+            sp[43].Value = model.Service_charge;
+            sp[44].Value = model.Balance_price;
+            sp[45].Value = model.Freight_remark;
+            sp[46].Value = model.Balance_remark;
+            sp[47].Value = model.Money_rate;
+            sp[48].Value = model.Money_code;
+            sp[49].Value = model.MobileNum;
+            sp[50].Value = model.ExpressDelivery;
+            sp[51].Value = model.InvoType;
+            sp[52].Value = model.Promoter;
+            sp[53].Value = model.ExpressNum;
+            sp[54].Value = model.Company;
+            sp[55].Value = model.SendPointStatus;
+            sp[56].Value = model.province;
+            sp[57].Value = model.Extend;
+            sp[58].Value = model.StoreID;
+            sp[59].Value = model.AllMoney_Json;
+            sp[60].Value = model.PaymentNo;
+            sp[61].Value = model.ExpTime;
+            sp[62].Value = model.IsSure;
+            sp[63].Value = model.BackID;
+            return sp;
+        }
+        public M_OrderList GetModelFromReader(DbDataReader rdr)
+        {
+            M_OrderList model = new M_OrderList();
+            model.id = Convert.ToInt32(rdr["id"]);
+            model.AddUser = rdr["AddUser"].ToString();
+            model.OrderNo = rdr["OrderNo"].ToString();
+            model.Reuser = ConverToStr(rdr["Reuser"]);
+            model.Receiver = ConverToStr(rdr["Receiver"]);
+            model.Rename = ConverToStr(rdr["Rename"]);
+            model.Guojia = ConverToStr(rdr["Guojia"]);
+            model.Shengfen = ConverToStr(rdr["Shengfen"]);
+            model.Chengshi = ConverToStr(rdr["Chengshi"]);
+            model.Diqu = ConverToStr(rdr["Diqu"]);
+            model.Jiedao = ConverToStr(rdr["Jiedao"]);
+            model.ZipCode = ConverToStr(rdr["ZipCode"]);
+            model.Phone = ConverToStr(rdr["Phone"]);
+            model.Email = ConverToStr(rdr["Email"]);
+            model.Mobile = ConvertToInt(rdr["Mobile"]);
+            model.Delivery = ConvertToInt(rdr["Delivery"]);
+            model.Outstock = ConvertToInt(rdr["Outstock"]);
+            model.Deliverytime = ConvertToInt(rdr["Deliverytime"]);
+            model.Payment = ConvertToInt(rdr["Payment"]);
+            model.Invoice = ConverToStr(rdr["Invoice"]);
+            model.Ordermessage = ConverToStr(rdr["Ordermessage"]);
+            model.Merchandiser = ConverToStr(rdr["Merchandiser"]);
+            model.Internalrecords = ConverToStr(rdr["Internalrecords"]);
+            model.Ordersamount = ConverToDouble(rdr["Ordersamount"]);
+            model.Receivablesamount = ConverToDouble(rdr["Receivablesamount"]);
+            model.Specifiedprice = ConverToDouble(rdr["Specifiedprice"]);
+            model.Freight = ConverToDouble(rdr["Freight"]);
+            model.Invoiceneeds = ConvertToInt(rdr["Invoiceneeds"]);
+            model.Developedvotes = ConvertToInt(rdr["Developedvotes"]);
+            model.OrderStatus = ConvertToInt(rdr["OrderStatus"]);
+            model.Paymentstatus = ConvertToInt(rdr["Paymentstatus"]);
+            model.StateLogistics = ConvertToInt(rdr["StateLogistics"]);
+            model.Signed = ConvertToInt(rdr["Signed"]);
+            model.Settle = ConvertToInt(rdr["Settle"]);
+            model.Aside = ConvertToInt(rdr["Aside"]);
+            model.Suspended = ConvertToInt(rdr["Suspended"]);
+            model.Ordertype = ConvertToInt(rdr["Ordertype"]);
+            model.AddTime = Convert.ToDateTime(rdr["AddTime"]);
+            model.Userid = ConvertToInt(rdr["Userid"]);
+            model.city = ConverToStr(rdr["city"]);
+            model.IsCount = ConverToBool(rdr["IsCount"]);
+            model.Integral = ConvertToInt(rdr["Integral"]);
+            //model.ParentID = ConvertToInt(rdr["parentID"]);
+            model.Service_charge = ConverToDouble(rdr["service_charge"]);
+            model.Balance_price = ConverToDouble(rdr["Balance_price"]);
+            model.Freight_remark =ConverToStr( rdr["Freight_remark"]);
+            model.Balance_remark = ConverToStr(rdr["Balance_remark"]);
+            model.Money_rate = ConverToDouble(rdr["Money_rate"]);
+            model.Money_code = ConverToStr(rdr["Money_code"]);
+            model.MobileNum = ConverToStr(rdr["MobileNum"]);
+            model.ExpressDelivery = ConverToStr(rdr["ExpressDelivery"]);
+            model.InvoType = ConvertToInt(rdr["InvoType"]);
+            model.Promoter = ConvertToInt(rdr["Promoter"]);
+            model.ExpressNum = ConverToStr(rdr["ExpressNum"]);
+            model.Company = ConverToStr(rdr["Company"]);
+            model.SendPointStatus = ConvertToInt(rdr["SendPointStatus"]);
+            model.province = ConverToStr(rdr["Province"]);
+            model.Extend = ConverToStr(rdr["Extend"]);
+            model.StoreID = ConvertToInt(rdr["StoreID"]);
+            model.AllMoney_Json = ConverToStr(rdr["AllMoney_Json"]);
+            model.PaymentNo = ConverToStr(rdr["PaymentNo"]);
+            model.ExpTime = ConverToStr(rdr["ExpTime"]);
+            model.IsSure = ConvertToInt(rdr["IsSure"]);
+            model.BackID = ConvertToInt(rdr["BackID"]);
+            rdr.Close();
+            return model;
+        }
+        public M_OrderList GetModelFromReader(System.Data.DataRow rdr)
+        {
+            M_OrderList model = new M_OrderList();
+            model.id = Convert.ToInt32(rdr["id"]);
+            model.AddUser = rdr["AddUser"].ToString();
+            model.OrderNo = rdr["OrderNo"].ToString();
+            model.Reuser = ConverToStr(rdr["Reuser"]);
+            model.Receiver = ConverToStr(rdr["Receiver"]);
+            model.Rename = ConverToStr(rdr["Rename"]);
+            model.Guojia = ConverToStr(rdr["Guojia"]);
+            model.Shengfen = ConverToStr(rdr["Shengfen"]);
+            model.Chengshi = ConverToStr(rdr["Chengshi"]);
+            model.Diqu = ConverToStr(rdr["Diqu"]);
+            model.Jiedao = ConverToStr(rdr["Jiedao"]);
+            model.ZipCode = ConverToStr(rdr["ZipCode"]);
+            model.Phone = ConverToStr(rdr["Phone"]);
+            model.Email = ConverToStr(rdr["Email"]);
+            model.Mobile = ConvertToInt(rdr["Mobile"]);
+            model.Delivery = ConvertToInt(rdr["Delivery"]);
+            model.Outstock = ConvertToInt(rdr["Outstock"]);
+            model.Deliverytime = ConvertToInt(rdr["Deliverytime"]);
+            model.Payment = ConvertToInt(rdr["Payment"]);
+            model.Invoice = ConverToStr(rdr["Invoice"]);
+            model.Ordermessage = ConverToStr(rdr["Ordermessage"]);
+            model.Merchandiser = ConverToStr(rdr["Merchandiser"]);
+            model.Internalrecords = ConverToStr(rdr["Internalrecords"]);
+            model.Ordersamount = ConverToDouble(rdr["Ordersamount"]);
+            model.Receivablesamount = ConverToDouble(rdr["Receivablesamount"]);
+            model.Specifiedprice = ConverToDouble(rdr["Specifiedprice"]);
+            model.Freight = ConverToDouble(rdr["Freight"]);
+            model.Invoiceneeds = ConvertToInt(rdr["Invoiceneeds"]);
+            model.Developedvotes = ConvertToInt(rdr["Developedvotes"]);
+            model.OrderStatus = ConvertToInt(rdr["OrderStatus"]);
+            model.Paymentstatus = ConvertToInt(rdr["Paymentstatus"]);
+            model.StateLogistics = ConvertToInt(rdr["StateLogistics"]);
+            model.Signed = ConvertToInt(rdr["Signed"]);
+            model.Settle = ConvertToInt(rdr["Settle"]);
+            model.Aside = ConvertToInt(rdr["Aside"]);
+            model.Suspended = ConvertToInt(rdr["Suspended"]);
+            model.Ordertype = ConvertToInt(rdr["Ordertype"]);
+            model.AddTime = Convert.ToDateTime(rdr["AddTime"]);
+            model.Userid = ConvertToInt(rdr["Userid"]);
+            model.city = ConverToStr(rdr["city"]);
+            model.IsCount = ConverToBool(rdr["IsCount"]);
+            model.Integral = ConvertToInt(rdr["Integral"]);
+            //model.ParentID = ConvertToInt(rdr["parentID"]);
+            model.Service_charge = ConverToDouble(rdr["service_charge"]);
+            model.Balance_price = ConverToDouble(rdr["Balance_price"]);
+            model.Freight_remark = ConverToStr(rdr["Freight_remark"]);
+            model.Balance_remark = ConverToStr(rdr["Balance_remark"]);
+            model.Money_rate = ConverToDouble(rdr["Money_rate"]);
+            model.Money_code = ConverToStr(rdr["Money_code"]);
+            model.MobileNum = ConverToStr(rdr["MobileNum"]);
+            model.ExpressDelivery = ConverToStr(rdr["ExpressDelivery"]);
+            model.InvoType = ConvertToInt(rdr["InvoType"]);
+            model.Promoter = ConvertToInt(rdr["Promoter"]);
+            model.ExpressNum = ConverToStr(rdr["ExpressNum"]);
+            model.Company = ConverToStr(rdr["Company"]);
+            model.SendPointStatus = ConvertToInt(rdr["SendPointStatus"]);
+            model.province = ConverToStr(rdr["Province"]);
+            model.Extend = ConverToStr(rdr["Extend"]);
+            model.StoreID = ConvertToInt(rdr["StoreID"]);
+            model.AllMoney_Json = ConverToStr(rdr["AllMoney_Json"]);
+            model.PaymentNo = ConverToStr(rdr["PaymentNo"]);
+            model.ExpTime = ConverToStr(rdr["ExpTime"]);
+            model.IsSure = ConvertToInt(rdr["IsSure"]);
+            model.BackID = ConvertToInt(rdr["BackID"]);
+            return model;
+        }
+        public M_OrderList()
+        {
+            OrderStatus = (int)StatusEnum.Normal;
+            Ordertype = (int)OrderEnum.Normal;
+            StateLogistics = (int)ExpEnum.NoSend;
+            Paymentstatus = (int)PayEnum.NoPay;
+            this.IsCount = false;
+            this.PaymentNo = "";
+            this.StoreID = 0;
+            this.Suspended = 0;
+            this.Promoter = 0;
+            this.Developedvotes = 0;
+            this.Signed = 0;
+            this.Settle = 0;
+            this.Developedvotes = 0;
+            this.AllMoney_Json = "";
+            this.Freight_remark = " ";
+            this.Balance_remark = "";
+            this.Ordersamount = 0;
+            this.Freight = 0;
+            this.Receivablesamount = 0;
+            this.Outstock = 0;
+            this.IsSure = 0;
+        }
+    }
+}

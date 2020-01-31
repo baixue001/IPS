@@ -1,0 +1,50 @@
+﻿@model ZoomLa.SQLDAL.SQL.PageSetting
+@{ 
+    string apiUrl = "SearchFunc_API?action=";
+}
+@section head{<title>管理导航</title>}
+@section content{
+	@Call.SetBread(new Bread[] {
+		new Bread("{admin}"),
+        new Bread() {url=Context.Request.RawUrl(), text="管理导航<a href='SearchFuncAdd'> [添加管理导航]</a>",addon="" }})
+	<div class="list_choice">
+    <div class="divbox" id="nocontent" runat="server" style="display: none"><asp:Literal Text="<%$Resources:L,暂无导航信息 %>" runat="server"/> </div>
+    <div class="alert alert-info mb-2">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        管理导航：在此位置您可以对索引目录进行观察位置、删除目录及管理目录的索引文件。 <span class="text-danger">(提示：凡是文件未启用或站内链接不存在该文件则无法链接到指定的页面。)</span>
+    </div> 
+    <ul class="nav nav-tabs" id="linktype_ul">
+      <li class="nav-item" data-id="0" role="presentation"><a class="nav-link" href="SearchFunc">所有应用</a></li>
+      <li class="nav-item" data-id="1" role="presentation"><a class="nav-link" href="SearchFunc?state=1">已启用</a></li>
+      <li class="nav-item" data-id="2" role="presentation"><a class="nav-link" href="SearchFunc?state=2">已停用</a></li>  
+    </ul>
+    <div class="table-responsive">
+        @Html.Partial("SearchFunc_List")
+    </div>
+    <div class="alert alert-light text-center">
+        <input type="button" ID="BtnDelete" class="btn btn-outline-danger mb-1" value="批量删除" onclick="mvcpage.bat({url:'@(apiUrl+"del")',confirm:'确定要删除吗'});"/>
+        @*<asp:Button ID="Button1"  value="批量启用" class="btn btn-outline-info mb-1" OnClick="Btnuse_Click" />
+        <asp:Button ID="Button2"  value="批量停用" class="btn btn-outline-danger mb-1" OnClick="Btnstop_Click" />*@
+        <input type="button" ID="Button3" value="保存排序" class="btn btn-outline-info mb-1" onclick="saveOrder();"/>
+    </div>
+	</div>
+}
+@section script{
+    <script type="text/javascript" src="/JS/SelectCheckBox.js"></script>
+    <script>
+        $().ready(function () {
+            ZL_Regex.B_Num("input[type=number]");
+            var LinkState = '@Context.Request.GetParam("state")';
+            $("#linktype_ul [data-id='" + LinkState + "']").find("a").addClass('active');
+        })
+        function saveOrder() {
+            if (!confirm("确定要保存排序吗")) { return false; }
+            var packet = { order_T: "", order_Hid: "" };
+            $("input[name=order_T]").each(function () { packet.order_T += this.value + ","; });
+            $("input[name=order_Hid]").each(function () { packet.order_Hid += this.value + ","; });
+
+            $.post("@(apiUrl+"order")",packet, function (data) { if (data == "1") { alert("排序更新成功"); } else { alert("排序更新失败:"+data); } })
+        }
+
+    </script>
+}

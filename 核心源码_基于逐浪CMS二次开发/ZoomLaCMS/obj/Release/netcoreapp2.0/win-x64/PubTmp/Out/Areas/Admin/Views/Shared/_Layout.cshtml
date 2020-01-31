@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@Html.Partial("_layout_assets")
+<link rel="stylesheet" href="~/css/v4style.css?v=3" />
+<link href="/JS/Plugs/iCheck/skins/all.css" rel="stylesheet" />
+<script src="/JS/Plugs/iCheck/icheck.min.js"></script>
+@RenderSection("head",false)
+</head>
+<body>
+@RenderSection("content",false)
+
+@RenderSection("script",false)
+</body>
+</html>

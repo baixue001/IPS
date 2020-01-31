@@ -1,0 +1,26 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Table>
+    <LabelID>323</LabelID>
+    <LabelName>test</LabelName>
+    <LabelType>2</LabelType>
+    <LabelCate>全站通用</LabelCate>
+    <LabelParam />
+    <LabelTable>zl_c_article LEFT JOIN zl_manager ON zl_c_article.ID=zl_manager.AdminID</LabelTable>
+    <LabelField>zl_commonmodel.TableName,zl_commonmodel.Title,zl_commonmodel.Inputer,zl_commonmodel.NodeID,zl_commonmodel.ModelID,zl_commonmodel.ItemID,zl_commonmodel.TableName,zl_commonmodel.Title</LabelField>
+    <LabelWhere> zl_commonmodel.GeneralID=12</LabelWhere>
+    <LabelOrder>zl_commonmodel.GeneralID DESC</LabelOrder>
+    <LabelContent>sadfasdfasdfadsf</LabelContent>
+    <LabelCount>10</LabelCount>
+    <LabelAddUser>0</LabelAddUser>
+    <LabelNodeID>0</LabelNodeID>
+    <addroot>循环</addroot>
+    <IsOpen>0</IsOpen>
+    <FalseContent>asdfasdfasdf</FalseContent>
+    <EmptyContent>asdfasdfdasf</EmptyContent>
+    <DataSourceType>{"ds_m":"main","ds_s":"main","tb_m":"zl_c_article","tb_s":"zl_manager"}</DataSourceType>
+    <ConnectString />
+    <ProceName />
+    <ProceParam />
+  </Table>
+</NewDataSet>

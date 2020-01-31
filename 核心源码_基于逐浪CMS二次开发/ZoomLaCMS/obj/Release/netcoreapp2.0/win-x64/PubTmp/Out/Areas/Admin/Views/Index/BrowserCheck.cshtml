@@ -1,0 +1,23 @@
+﻿@{
+    string browser = "";//浏览器
+    string currentIP = "";//当前IP
+    string cookiesSurrport = "";//Cookies
+    string UserAgent = ""; //服务器语言种类
+    currentIP = Context.Request.Host.Host;
+
+
+}
+<table id="mainTB" class="table table-striped table-bordered table-hover"> 
+    <tr><td class="text-right" style="width:120px;">浏览器版本：</td><td>@browser</td></tr>
+    <tr><td class="text-right">客户端地址：</td><td>@currentIP</td></tr>
+    <tr><td class="text-right">Cookies：</td><td>@cookiesSurrport</td></tr>
+    <tr><td class="text-right">服务器Mac：</td><td></td></tr>
+    <tr><td class="text-right">访问的网址：</td><td> </td></tr>
+    <tr><td class="text-right">服务器版本：</td><td> </td></tr>
+    <tr><td class="text-right">.NET 版本：</td><td> </td></tr> 
+</table>
+<style type="text/css">
+.info_url a {color:#1370b5;text-decoration:none;}
+.info_url a:hover {color:#ff6600;}
+#mainTB tr td {height:26px;line-height:26px;padding:1px;padding-left:8px;font-size:12px;font-family:'Microsoft YaHei';}
+</style>

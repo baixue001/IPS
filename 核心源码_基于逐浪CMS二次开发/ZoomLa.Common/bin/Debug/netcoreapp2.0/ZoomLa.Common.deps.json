@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "ZoomLa.Common/1.0.0": {
+        "dependencies": {
+          "ZoomLa.Safe": "1.0.0"
+        },
+        "runtime": {
+          "ZoomLa.Common.dll": {}
+        }
+      },
+      "ZoomLa.Safe/1.0.0": {
+        "runtime": {
+          "ZoomLa.Safe.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ZoomLa.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ZoomLa.Safe/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

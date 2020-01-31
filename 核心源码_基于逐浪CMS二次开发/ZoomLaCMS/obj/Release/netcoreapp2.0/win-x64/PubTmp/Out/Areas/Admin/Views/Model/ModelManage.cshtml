@@ -1,0 +1,42 @@
+﻿@using ZoomLa.Common
+@using ZoomLa.BLL
+@using ZoomLa.BLL.Content
+@using ZoomLa.Model
+@using System.Data
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@model ZoomLa.SQLDAL.SQL.PageSetting
+@functions{
+    public int ModelType { get { return ViewBag.ModelType; } }
+
+        }
+@{
+    B_Model bll = new B_Model();
+
+    }
+    @section head{<title>模型管理</title> }
+    @section content{
+        @Call.SetBread(new Bread[] {
+new Bread("/{manage}/Main","工作台"),
+new Bread("ModelManage?ModelType="+ModelType,"模型管理"),
+new Bread() {url="ModelManage?ModelType="+ModelType, text=bll.GetModelType(ModelType)+ "管理 <a href='ModelAdd?ModelType="+ ModelType+"'>[添加模型]</a>",addon="" }})
+
+    <div class="container-fluid pr-0 table-responsive-md">
+        @Html.Partial("ModelManage_List",Model)
+    </div>
+
+}
+@section script{
+    <link href="/Plugins/Third/alert/sweetalert.css" rel="stylesheet" />
+    <style>
+        .allchk_l { display: none; }
+    </style>
+    <script src="/Plugins/Third/alert/sweetalert.min.js?v=1"></script>
+    <script>
+        function getinfo(id) {
+            location.href = "AddEditModel?ModelID=" + id + '&ModelType=<%=ModelType %>';
+        }
+        $(".btn-group .aspNetDisabled").addClass("dropdown-item")
+    </script>
+
+}

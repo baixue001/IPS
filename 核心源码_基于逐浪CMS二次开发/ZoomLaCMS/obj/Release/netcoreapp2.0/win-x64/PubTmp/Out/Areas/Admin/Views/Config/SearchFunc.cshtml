@@ -1,0 +1,307 @@
+﻿@{
+
+}
+@section head{<title>快速导航</title> }
+@section content{
+<nav aria-label="breadcrumb" role="navigation" class="fixed-top"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/Admin/Main">工作台</a> </li><li class="breadcrumb-item active" aria-current="page"><a href="/Admin/Config/SearchFunc">管理导航</a><a href="AddSearch"> [添加管理导航]</a> </li></ol></nav>
+<div class="list_choice">
+    <div id="nocontent" class="divbox" style="display: none">暂无导航信息 </div>
+    <div class="alert alert-info mb-2">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        管理导航：在此位置您可以对索引目录进行观察位置、删除目录及管理目录的索引文件。 <span class="text-danger">(提示：凡是文件未启用或站内链接不存在该文件则无法链接到指定的页面。)</span>
+    </div> 
+    <ul class="nav nav-tabs" id="linktype_ul">
+      <li class="nav-item" data-id="0" role="presentation"><a class="nav-link active" href="SearchFunc">所有应用</a></li>
+      <li class="nav-item" data-id="1" role="presentation"><a class="nav-link" href="SearchFunc?state=1">已启用</a></li>
+      <li class="nav-item" data-id="2" role="presentation"><a class="nav-link" href="SearchFunc?state=2">已停用</a></li>  
+    </ul>
+    <div class="table-responsive">
+        <div>
+	<table class="table table-striped table-bordered" cellspacing="0" rules="all" isholdstate="false" border="1" id="EGV" style="border-collapse:collapse;">
+		<tbody><tr>
+			<th scope="col">&nbsp;</th><th scope="col">名称</th><th scope="col">状态</th><th scope="col">文件或地址路径</th><th scope="col">图标地址</th><th scope="col">手动排序</th><th scope="col">属性</th><th scope="col">连接类型</th><th scope="col">操作</th>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=1'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="1">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl02$hfId" id="hfId" value="1">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=1" title="点击编辑导航">系统配置</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/config/siteinfo" title="系统配置">/Admin/config/siteinfo</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-cog"></i></span>：<span id="lblpic">fa fa-cog</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="1">
+                        <input type="hidden" name="order_Hid" value="1:1:1">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl02$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=2'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="2">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl03$hfId" id="hfId" value="2">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=2" title="点击编辑导航">内容管理</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/content/contentmanage" title="内容管理">/Admin/content/contentmanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-tree"></i></span>：<span id="lblpic">fa fa-tree</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="2">
+                        <input type="hidden" name="order_Hid" value="2:2:2">
+                    </td><td align="center" valign="middle">
+                         <i class="fa fa-mobile" title="支持移动" style="font-size:22px;color:#FF7A00;"> 
+                    </i></td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl03$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=3'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="3">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl04$hfId" id="hfId" value="3">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=3" title="点击编辑导航">云控制台</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/adminmvc/bis/servicelist" title="云控制台">/adminmvc/bis/servicelist</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-cloud"></i></span>：<span id="lblpic">fa fa-cloud</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="3">
+                        <input type="hidden" name="order_Hid" value="3:3:3">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl04$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=4'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="4">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl05$hfId" id="hfId" value="4">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=4" title="点击编辑导航">标签管理</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/template/labelmanage" title="标签管理">/Admin/template/labelmanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-eyedropper"></i></span>：<span id="lblpic">fa fa-eyedropper</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="4">
+                        <input type="hidden" name="order_Hid" value="4:4:4">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl05$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=5'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="5">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl06$hfId" id="hfId" value="5">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=5" title="点击编辑导航">模板管理</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/template/templatemanage" title="模板管理">/Admin/template/templatemanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-list-alt"></i></span>：<span id="lblpic">fa fa-list-alt</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="5">
+                        <input type="hidden" name="order_Hid" value="5:5:5">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl06$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=6'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="6">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl07$hfId" id="hfId" value="6">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=6" title="点击编辑导航">会员管理</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/user/usermanage" title="会员管理">/Admin/user/usermanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-user"></i></span>：<span id="lblpic">fa fa-user</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="6">
+                        <input type="hidden" name="order_Hid" value="6:6:6">
+                    </td><td align="center" valign="middle">
+                         <i class="fa fa-mobile" title="支持移动" style="font-size:22px;color:#FF7A00;"> 
+                    </i></td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl07$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=7'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="7">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl08$hfId" id="hfId" value="7">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=7" title="点击编辑导航">邮件配置</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/config/mailconfig" title="邮件配置">/Admin/config/mailconfig</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-envelope"></i></span>：<span id="lblpic">fa fa-envelope</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="7">
+                        <input type="hidden" name="order_Hid" value="7:7:7">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl08$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=8'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="8">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl09$hfId" id="hfId" value="8">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=8" title="点击编辑导航">安全设定</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/user/adminmanage" title="安全设定">/Admin/user/adminmanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-fire"></i></span>：<span id="lblpic">fa fa-fire</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="8">
+                        <input type="hidden" name="order_Hid" value="8:8:8">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl09$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=9'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="9">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl10$hfId" id="hfId" value="9">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=9" title="点击编辑导航">留言管理</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/guest/guestmanage" title="留言管理">/Admin/guest/guestmanage</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-comment"></i></span>：<span id="lblpic">fa fa-comment</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="9">
+                        <input type="hidden" name="order_Hid" value="9:9:9">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl10$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=10'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="10">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl11$hfId" id="hfId" value="10">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=10" title="点击编辑导航">订单列表</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="/Admin/shop/orderlist" title="订单列表">/Admin/shop/orderlist</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-shopping-cart"></i></span>：<span id="lblpic">fa fa-shopping-cart</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="10">
+                        <input type="hidden" name="order_Hid" value="10:10:10">
+                    </td><td align="center" valign="middle">
+                         <i class="fa fa-mobile" title="支持移动" style="font-size:22px;color:#FF7A00;"> 
+                    </i></td><td align="center" valign="middle">
+                       <i class="fa fa-list-alt" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl11$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=11'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="11">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl12$hfId" id="hfId" value="11">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=11" title="点击编辑导航">技术论坛</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="http://bbs.z01.com" title="技术论坛">http://bbs.z01.com</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-question-circle"></i></span>：<span id="lblpic">fa fa-question-circle</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="11">
+                        <input type="hidden" name="order_Hid" value="11:11:11">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-chain" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl12$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr ondblclick="location.href='AddSearch?menu=edit&amp;id=12'">
+			<td align="center" valign="middle">
+                        <input type="checkbox" name="chkSel" value="12">
+                        <input type="hidden" name="ctl00$Content$EGV$ctl13$hfId" id="hfId" value="12">
+                    </td><td align="center" valign="middle">
+                        <a href="AddSearch?menu=edit&amp;id=12" title="点击编辑导航">视频教程</a>
+                    </td><td align="center" valign="middle">
+                        启用
+                    </td><td>
+                        <a href="http://www.z01.com/mtv/" title="视频教程">http://www.z01.com/mtv/</a>
+                    </td><td>
+                        <span class="font_red"><i class="fa fa-film"></i></span>：<span id="lblpic">fa fa-film</span>
+                    </td><td align="center">
+                        <input type="number" min="1" class="text_x text-center" name="order_T" value="12">
+                        <input type="hidden" name="order_Hid" value="12:12:12">
+                    </td><td align="center" valign="middle">
+                         
+                    </td><td align="center" valign="middle">
+                       <i class="fa fa-chain" style="color:#FF7A00;"></i>
+                    </td><td align="center" valign="middle">
+                       <a href="javascript:__doPostBack('ctl00$Content$EGV$ctl13$ctl00','')">设为启动页</a>
+                    </td>
+		</tr><tr>
+			<td colspan="9"><div id="egv_page" class="text-center">
+				<label class="allchk_l"><input type="checkbox" id="AllID_Chk" onclick="$('input:checkbox[name=idchk]:enabled').each(function () {this.checked = $('#AllID_Chk')[0].checked;});"><span class="allchk_sp">全选</span></label>共&nbsp;<span id="LblRowsCount" style="font-weight:bold;">12</span>&nbsp;条记录&nbsp;&nbsp;<a class="aspNetDisabled" style="color:gray;">首页</a>&nbsp;<a class="aspNetDisabled" style="color:gray;">上一页</a>&nbsp;<a class="aspNetDisabled" style="color:gray;">下一页</a>&nbsp;<a class="aspNetDisabled" style="color:gray;">尾页</a>&nbsp;&nbsp;页次：<span style="color:Red;font-weight:bold;">1</span>/<span style="font-weight:bold;">1</span>页&nbsp;&nbsp;<input name="ctl00$Content$EGV$ctl15$ctl07" type="text" value="20" maxlength="3" onchange="javascript:setTimeout('__doPostBack(\'ctl00$Content$EGV$ctl15$ctl07\',\'\')', 0)" onkeypress="if (WebForm_TextBoxKeyHandler(event) == false) return false;" style="width:35px;text-align:center;">条记录/页&nbsp;&nbsp;转到第<select name="ctl00$Content$EGV$ctl15$ctl08" onchange="javascript:setTimeout('__doPostBack(\'ctl00$Content$EGV$ctl15$ctl08\',\'\')', 0)">
+					<option selected="selected" value="1">1</option>
+
+				</select>页
+			</div></td>
+		</tr>
+	</tbody></table>
+</div>
+    </div>
+    <div class="alert alert-light text-center">
+        <input type="submit" name="ctl00$Content$BtnDelete" value="删除导航" onclick="if(!IsSelectedId()){alert('请选择内容');return false;}else{return confirm('确定删除？')};" id="BtnDelete" class="btn btn-outline-danger mb-1">
+        <input type="submit" name="ctl00$Content$Button1" value="批量启用" id="Button1" class="btn btn-outline-info mb-1">
+        <input type="submit" name="ctl00$Content$Button2" value="批量停用" id="Button2" class="btn btn-outline-danger mb-1">
+        <input type="submit" name="ctl00$Content$Button3" value="保存排序" onclick="return confirm('确定要保存修改后的排序吗!!!');" id="Button3" class="btn btn-outline-info mb-1">
+    </div>
+	</div>
+
+ }
+@section script{ }

@@ -1,0 +1,33 @@
+﻿@model ErrorViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = Model.ReturnUrl;
+    string message = Model.Message;
+    if (string.IsNullOrEmpty(url))
+    {
+        url = "javascript:history.back();";
+    }
+}
+
+@section head{
+<link rel="stylesheet" href="/dist/css/animate.min.css"/>
+<title>错误提示</title>
+}
+@section content{
+<div class="container animated sysTips_prompt">
+    <div class="col-sm-6 offset-sm-3">
+        <div class="card">
+            <div class="card-header"><i class="zi zi_bulbLine" aria-hidden="true"></i> 错误请求-原因可能是： </div>
+            <div class="card-body text-center">
+                <h5 class="card-title"></h5>
+                <p class="card-text">@MvcHtmlString.Create(message)</p>
+                <div class="card-text"><a href="@url" class="btn btn-info" style="color:#fff;"><i class="zi zi_reply"></i> @("<-返回上一页") </a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+@section script{
+
+}

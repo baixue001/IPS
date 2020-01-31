@@ -1,0 +1,24 @@
+﻿@model ZoomLa.SQLDAL.SQL.PageSetting
+@{ 
+
+
+}
+<table class="table table-bordered table-striped" id="EGV">
+        <thead><tr>
+            <td></td>
+            <td>用户名</td>
+            <td><label><input type="checkbox" onclick="ColChk('Look');" />访问</label></td>
+            <td><label><input type="checkbox" onclick="ColChk('Send');" />发贴</label></td>
+            <td><label><input type="checkbox" onclick="ColChk('Reply');" />回贴</label></td>
+            </tr></thead>
+    @foreach (DataRow dr in Model.dt.Rows)
+    {
+        <tr>
+            <td><input type="checkbox" onclick="RowChk(this);" /></td>
+            <td><a href="javascript:;" onclick="user.showuinfo('@dr["UserID"]');">@dr["UserName"]</a></td>
+            <td><input type="checkbox" data-auth="Look"  name="Look_@dr["UserID"]" value="1"/></td>
+            <td><input type="checkbox" data-auth="Send"  name="Send_@dr["UserID"]"   value="1"/></td>
+            <td><input type="checkbox" data-auth="Reply" name="Reply_@dr["UserID"]"  value="1"/></td>
+        </tr>
+    }
+ </table>

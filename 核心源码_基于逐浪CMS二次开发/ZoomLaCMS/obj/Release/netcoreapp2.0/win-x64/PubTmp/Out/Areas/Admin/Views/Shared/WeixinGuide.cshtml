@@ -1,0 +1,33 @@
+﻿@{ 
+    B_WX_APPID WxBll = new B_WX_APPID();
+    DataTable dt=WxBll.Sel();
+
+}
+<div class="m_left_ul open">
+<div class="menu_tit" onclick="wxclick(this);"><i class="zi zi_forDown"></i> 微信配置</div>
+<div id="wx_menu" class="NodeTree_left_ul">
+<ul>
+<li id="menu10_2_2" onclick="wxclick(this);"><a href="Mobile/WeiXin/WxAppManage" target='main_right'>公众号码</a></li>
+
+<li class="pl-0"> <p class="menu_tit laybtn below"><i class="zi zi_forDown"></i> 微信公众号</p></li>
+@foreach (DataRow dr in dt.Rows)
+{
+	<li class="wx_item" onclick="wxclick(this);"><a href="javascript:;"><i class="zi zi_tmWeixin"></i> @dr["Alias"]</a></li>
+	<ul class="downmenu d-none">
+	    <li><a class="margin_l15" href="Mobile/Weixin/WelPage?appid=@dr["ID"]" target='main_right'><i class="zi zi_globe"></i> 欢迎语</a></li>
+	    <li><a class="margin_l15" href="Mobile/Weixin/WxConfig?id=@dr["ID"]" target='main_right'><i class="zi zi_qrcode"></i> 微信配置</a></li>
+	    @*<li><a class="margin_l15" href="Mobile/Weixin/ReplyList?appid=@dr["ID"]" target='main_right'><i class="zi zi_comments"></i> 自动回复</a></li>*@
+	    @*<li><a class="margin_l15" href="Mobile/Weixin/Msg/MsgTlpList?appid=@dr["ID"]" target='main_right'><i class="zi zi_filePic"></i> 消息群发</a></li>*@
+	    <li><a class="margin_l15" href="Mobile/Weixin/EditWxMenu?appid=@dr["ID"]" target='main_right'><i class="zi zi_book"></i> 菜单配置</a></li>
+	    <li><a class="margin_l15" href="Mobile/Weixin/WxUserList?appid=@dr["ID"]" target='main_right'><i class="zi zi_users"></i> 粉丝管理</a></li>
+	    @*<li><a class="margin_l15" href="Mobile/Weixin/WxMaterial?appid=<%#Eval("ID") %>&type=image" target='main_right'><i class="zi zi_newspaper"></i> 素材管理</a></li>*@
+	    @*<li><a class="margin_l15" href="Mobile/Weixin/MsgTlpList?appid=@dr["ID"]" target='main_right'><i class="zi zi_comment"></i> 模板消息</a></li>*@
+	    @*<li><a class="margin_l15" href="Mobile/Weixin/Red/RedPacket?appid=<%#Eval("ID") %>" target='main_right'><i class="zi zi_gift"></i> 红包管理</a></li>
+	    <li><a class="margin_l15" href="Mobile/Weixin/Pay/EnterPrise?appid=<%#Eval("ID") %>" target='main_right'><i class="zi zi_creditCard"></i> 企业付款</a></li>
+	    <li><a class="margin_l15" href="Mobile/Weixin/Pay/PayLog?appid=<%#Eval("ID") %>" target='main_right'><i class="zi zi_database"></i> 支付日志</a></li>*@
+	    <li><a class="margin_l15" href="Mobile/Weixin/WxPayConfig?appid=@dr["ID"]" target='main_right'><i class="zi zi_shoppingcart"></i> 支付配置</a></li>
+	</ul>
+}
+</ul>
+</div>
+</div>

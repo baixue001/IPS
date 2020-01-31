@@ -1,0 +1,79 @@
+﻿@using System.Data
+@using ZoomLa.Common
+@model ZoomLa.SQLDAL.SQL.PageSetting
+@functions{
+
+    public DataTable RoleDT
+    {
+        get
+        {
+            if (ViewBag.RoleDT == null)
+            { ViewBag.RoleDT = ZoomLa.SQLDAL.DBCenter.Sel("ZL_Role"); }
+            return ViewBag.RoleDT;
+        }
+
+    }
+    public string GetRoleName(DataRow dr)
+    {
+
+        string ids = DataConverter.CStr(dr["AdminRole"]);
+        if (string.IsNullOrEmpty(ids)) { return ""; }
+        DataRow[] drs = RoleDT.Select("'" + ids + "' LIKE '%,'+RoleID+',%'");
+        ids = "";
+        foreach (DataRow item in drs)
+        {
+            ids += item["RoleName"].ToString() + ",";
+        }
+        return ids.Trim(',');
+    }
+    public string GetUserName(DataRow dr)
+    {
+        if (DataConverter.CLng(dr["AddUserID"]) > 0)
+            return "<a href='UserInfo?id=" + dr["AddUserID"] + "'>查看</span>";
+        return "<span style='color:gray;'>无</span>";
+    }
+}
+@{
+
+}
+<table class="table table-bordered table-striped" id="EGV">
+    <thead>
+        <tr>
+            <td></td>
+            <td>ID</td>
+            <td>状态</td>
+            <td>管理员名</td>
+            <td>真实姓名</td>
+            <td>管理员角色</td>
+            <td>关联会员</td>
+            <td>最近IP</td>
+            <td>上次修改密码时间</td>
+            <td>创建时间</td>
+            <td>最近活跃时间</td>
+            <td>登录次数</td>
+            <tD>操作</tD>
+        </tr>
+    </thead>
+    @foreach (DataRow dr in Model.dt.Rows)
+    {
+        <tr>
+            <td> <input name="idchk" type="checkbox" title="全选" value="@dr["AdminID"]" /></td>
+            <td>@dr["AdminId"]</td>
+            <td>@(DataConverter.CLng(dr["IsLock"]) == 1 ? "锁定" : "正常")</td>
+            <td><a href="AdminAdd?id=@dr["AdminId"]">@dr["AdminName"]</a></td>
+            <td>@dr["AdminTrueName"]</td>
+            <td>@GetRoleName(dr)</td>
+            <td>@MvcHtmlString.Create(GetUserName(dr))</td>
+            <td>@dr["LastLoginIP"]</td>
+            <td>@dr["LastModifyPwdTime"]</td>
+            <td>@dr["CDate"]</td>
+            <td>@dr["LastLogoutTime"]</td>
+            <td>@dr["LoginTimes"]</td>
+            <td>
+                <a href="AdminAdd?ID=@dr["AdminID"]"><i class="zi zi_pencilalt" title="修改"></i></a>
+                <a href="javascript:;" onclick="mvcpage.post({ url: 'Admin_API?action=del', confirm: '确定要删除该管理员', data: {'ids':'@dr["AdminID"]'}});"><i class="zi zi_trashalt" zico="垃圾箱竖条"></i></a>
+            </td>
+        </tr>
+    }
+    @Html.Partial("_page", Model)
+</table>
